@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Go habit</string>
+    <string name="tela_login">Seja bem-vindo!</string>
+    <string name="login_title">Login</string>
+    <string name="cadastro_title">Cadastra-se</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Senha</string>
+    <string name="repeatPassword_hint">Confirme a senha</string>
+    <string name="login_button">Entrar</string>
+    <string name="cadastro_button">Cadastrar</string>
+
+</resources>
