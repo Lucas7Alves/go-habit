@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.souunit.gohabit.model.User;
 import com.souunit.gohabit.view.FormLogin;
 
@@ -114,6 +115,11 @@ public class FormCadastro extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    private void salvarDadosUsuario() {
+        String email = editTextEmail.getText().toString();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
     }
 }
