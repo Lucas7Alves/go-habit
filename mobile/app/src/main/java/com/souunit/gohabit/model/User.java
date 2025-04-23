@@ -1,6 +1,11 @@
 package com.souunit.gohabit.model;
 
-public class User {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class User implements Parcelable {
 
     private String idUser;
     private String nome;
@@ -11,7 +16,7 @@ public class User {
     //was double
     private Integer pontuacao;
 
-    // Required default constructor for Firebase
+    // default constructor for Firebase
     public User() {
     }
 
@@ -23,7 +28,40 @@ public class User {
         this.descricao = descricao;
     }
 
+    // for Parcelable
 
+    protected User(Parcel in) {
+        idUser = in.readString();
+        nome = in.readString();
+        email = in.readString();
+        password = in.readString();
+        descricao = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+
+    }
+
+
+    //getters and setters
     public String getIdUser() {
         return idUser;
     }
