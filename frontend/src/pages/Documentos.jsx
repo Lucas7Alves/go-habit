@@ -1,9 +1,9 @@
-import ResponsiveAppBar from "../components/ResponsiveAppBar";
+import ButtonAppBar from "../components/ButtonAppBar";
 
 export default function Documentos() {
     return (
         <div>
-            <ResponsiveAppBar />
+            <ButtonAppBar />
             <h2>Documentos do Projetos</h2>
         </div>
     )

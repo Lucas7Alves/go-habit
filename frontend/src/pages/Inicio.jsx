@@ -1,9 +1,9 @@
-import ResponsiveAppBar from "../components/ResponsiveAppBar";
+import ButtonAppBar from "../components/ButtonAppBar";
 
 export default function Inicio() {
     return (
         <div>
-            <ResponsiveAppBar />
+            <ButtonAppBar />
             <h2>Go Habit</h2>
         </div>
     )

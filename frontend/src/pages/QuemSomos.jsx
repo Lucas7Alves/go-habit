@@ -1,9 +1,9 @@
-import ResponsiveAppBar from "../components/ResponsiveAppBar";
+import ButtonAppBar from "../components/ButtonAppBar";
 
 export default function QuemSomos() {
     return (
         <div>
-            <ResponsiveAppBar />
+            <ButtonAppBar />
             <h2>Quem Somos</h2>
         </div>
     );
