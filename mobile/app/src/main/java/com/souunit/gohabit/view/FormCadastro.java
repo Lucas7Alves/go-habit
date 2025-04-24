@@ -1,4 +1,4 @@
-package com.souunit.gohabit;
+package com.souunit.gohabit.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -23,9 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.souunit.gohabit.R;
 import com.souunit.gohabit.model.User;
-import com.souunit.gohabit.view.FormLogin;
 
 public class FormCadastro extends AppCompatActivity {
 
@@ -33,18 +30,6 @@ public class FormCadastro extends AppCompatActivity {
     EditText editTextEmail, editTextPassword, editTextRepeatPassword;
 
     User user = new User();
-
-    private final ActivityResultLauncher<Intent> cadastroLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK) {
-                    Intent data = result.getData();
-                    if (data != null && data.hasExtra("manager")) {
-                        user = data.getParcelableExtra("manager");
-                    }
-                }
-            }
-    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +48,8 @@ public class FormCadastro extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 iniciarComponentes();
-                cadastrarUsuario();
+                Intent intent = new Intent(FormCadastro.this, FormCadPerfil.class);
+                startActivity(intent);
             }
         });
 
@@ -80,6 +66,7 @@ public class FormCadastro extends AppCompatActivity {
         String password = editTextPassword.getText().toString();
         String repeatPassword = editTextRepeatPassword.getText().toString();
 
+
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -87,10 +74,8 @@ public class FormCadastro extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     snackbar = Snackbar.make(findViewById(R.id.layout_register), "Cadastro efetuado com sucesso!", Snackbar.LENGTH_SHORT);
 
-                    Intent intent = new Intent(FormCadastro.this, FormLogin.class);
-                    intent.putExtra("user", user);
-
-                    cadastroLauncher.launch(intent);
+                    Intent intent = new Intent(FormCadastro.this, FormCadPerfil.class);
+                    startActivity(intent);
 
                     snackbar.show();
                 } else {
@@ -115,11 +100,5 @@ public class FormCadastro extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void salvarDadosUsuario() {
-        String email = editTextEmail.getText().toString();
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
     }
 }

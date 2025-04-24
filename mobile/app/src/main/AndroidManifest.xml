@@ -13,10 +13,13 @@
         android:theme="@style/Theme.GoHabit"
         tools:targetApi="31">
         <activity
-            android:name=".view.FormLogin"
+            android:name=".view.FormCadPerfil"
             android:exported="false" />
         <activity
-            android:name=".FormCadastro"
+            android:name=".view.FormCadastro"
+            android:exported="false" />
+        <activity
+            android:name=".FormLogin"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,12 +1,20 @@
 <resources>
-    <string name="app_name">Go habit</string>
-    <string name="tela_login">Seja bem-vindo!</string>
+    <!-- Title -->
     <string name="login_title">Login</string>
+    <string name="tela_login">Seja bem-vindo!</string>
+    <string name="title_cad_perfil">Crie seu avatar!</string>
+
+
+    <string name="app_name">Go habit</string>
     <string name="cadastro_title">Cadastra-se</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Senha</string>
     <string name="repeatPassword_hint">Confirme a senha</string>
     <string name="login_button">Entrar</string>
     <string name="cadastro_button">Cadastrar</string>
+    <string name="voltar_button">Voltar</string>
+    <string name="bio">Bio</string>
+    <string name="info_name">Informe seu nome</string>
+    <string name="finalizar_cadastro">Pronto!</string>
 
 </resources>

@@ -1,6 +1,8 @@
-package com.souunit.gohabit.view;
+package com.souunit.gohabit;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,9 +10,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.souunit.gohabit.R;
+import com.souunit.gohabit.view.FormCadastro;
 
 public class FormLogin extends AppCompatActivity {
+
+    Button btnCadastro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,5 +26,13 @@ public class FormLogin extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        btnCadastro = findViewById(R.id.buttonLogin);
+
+        btnCadastro.setOnClickListener(v -> {
+            Intent intent = new Intent(FormLogin.this, FormCadastro.class);
+            startActivity(intent);
+        });
+
     }
 }
