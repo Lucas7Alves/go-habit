@@ -3,6 +3,7 @@ package com.souunit.gohabit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,7 @@ import com.souunit.gohabit.view.FormCadastro;
 
 public class FormLogin extends AppCompatActivity {
 
-    Button btnCadastro;
+    Button btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +28,16 @@ public class FormLogin extends AppCompatActivity {
             return insets;
         });
 
-        btnCadastro = findViewById(R.id.buttonLogin);
+        btnLogin = findViewById(R.id.buttonLogin);
 
-        btnCadastro.setOnClickListener(v -> {
+        btnLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(FormLogin.this, FormCadastro.class);
+            startActivity(intent);
+        });
+
+        TextView textCadastro = findViewById(R.id.register_user);
+
+        textCadastro.setOnClickListener(v -> {
             Intent intent = new Intent(FormLogin.this, FormCadastro.class);
             startActivity(intent);
         });

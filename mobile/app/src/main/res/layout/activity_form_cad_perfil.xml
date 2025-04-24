@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:contentDescription="@string/voltar_button"
-        android:src="@android:drawable/ic_media_previous" />
+        android:src="@drawable/ic_arrow_left" />
 
     <!-- Título -->
     <TextView
@@ -40,7 +40,7 @@
             android:id="@+id/leftButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_arrow_left"
+            android:src="@drawable/ic_arrow_left_purple"
             android:background="@android:color/transparent"/>
 
         <ImageView
@@ -49,20 +49,24 @@
             android:layout_height="128dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/white_boy" />
+            android:src="@drawable/white_boy"
+            android:background=""
+            />
 
         <ImageButton
             android:id="@+id/rightButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_arrow_right"
-            android:background="@android:color/transparent"/>
+            android:src="@drawable/ic_arrow_right_purple"
+            android:background="@android:color/transparent"
+            />
+
     </LinearLayout>
 
 
-    <!-- Campo Email -->
+    <!-- Campo Bio -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/bio"
         android:textSize="16sp"
@@ -70,7 +74,7 @@
         android:layout_marginTop="50sp"
         android:layout_marginStart="44sp"
         android:layout_marginEnd="44sp"
-        android:paddingStart="12sp"
+        android:gravity="center_horizontal"
         />
     <EditText
         android:id="@+id/editTextEmail"
@@ -80,16 +84,16 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress" />
 
-    <!-- Campo Senha -->
+    <!-- Campo nome -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/info_name"
         android:textSize="16sp"
         android:textColor="#000000"
         android:layout_marginStart="44sp"
         android:layout_marginEnd="44sp"
-        android:paddingStart="12sp"
+        android:gravity="center_horizontal"
         />
     <EditText
         android:id="@+id/editTextPassword"
@@ -111,7 +115,7 @@
         android:layout_marginBottom="16dp"
         android:backgroundTint="#A875F8"
         android:padding="12dp"
-        android:text="confirmar"
+        android:text="@string/finalizar_cadastro"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
         android:textStyle="bold" />
