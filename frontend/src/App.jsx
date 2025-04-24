@@ -6,9 +6,9 @@ import ModeloNegocio from './pages/ModeloNegocio'
 import EtapasDesenvolvimento from './pages/EtapasDesenvolvimento'
 import Documentos from './pages/Documentos'
 import Login from './pages/Login'
-import CadastrarSe from './pages/CadastrarSe'
 import './index.css';
 import './app.css';
+import Register from './pages/Register'
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
         <Route path="/etapas-de-desenvolvimento" element={<EtapasDesenvolvimento />} />
         <Route path="/documentos" element={<Documentos />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/cadastrar-se" element={<CadastrarSe />} />
+        <Route path="/Register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   )

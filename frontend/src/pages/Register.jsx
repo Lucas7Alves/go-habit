@@ -1,4 +1,4 @@
-export default function CadastrarSe() {
+export default function Register() {
     return (
         <div>
         </div>
