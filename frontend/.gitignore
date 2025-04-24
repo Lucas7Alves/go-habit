@@ -25,3 +25,4 @@ dist-ssr
 
 # Ignorar o node
 node_modules
+**/firebaseConfig.js
