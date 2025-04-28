@@ -1,4 +1,3 @@
-// src/pages/Login.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -24,13 +23,14 @@ const Login = () => {
   return (
     <Box
       sx={{
-        minHeight: "90vh",
+        height: "100vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(to right, #ffffff, #f1e7ff)",
-        padding: 2,
-        paddingTop: "80px",  
+        backgroundImage: "url('../src/img/3380640.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <Paper elevation={6} sx={{ p: 5, maxWidth: 400, width: "100%", textAlign: "center" }}>
@@ -38,30 +38,21 @@ const Login = () => {
           Login
         </Typography>
         <TextField
-          label="Email"
-          variant="outlined"
-          fullWidth
+          label="Email" variant="standard" fullWidth 
           sx={{ mb: 2 }}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
-          label="Senha"
-          type="password"
-          variant="outlined"
-          fullWidth
+          label="Senha" type="password" variant="standard" fullWidth 
           sx={{ mb: 3 }}
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
         />
         <Button
-          variant="contained"
-          fullWidth
-          sx={{ backgroundColor: "#996AF9", "&:hover": { backgroundColor: "#7c4de3" } }}
-          onClick={handleLogin}
-        >
-          Entrar
-        </Button>
+          variant="contained" fullWidth 
+          sx={{ backgroundColor: "#996AF9", marginTop: "20px", "&:hover": { backgroundColor: "#7c4de3"} }}
+          onClick={handleLogin}>Entrar</Button>
       </Paper>
     </Box>
   );

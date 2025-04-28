@@ -1,13 +1,16 @@
-// src/pages/CadastrarSe.jsx
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
-import { Box, TextField, Button, Typography, Paper } from "@mui/material";
+import { Box, TextField, Button, Paper } from "@mui/material";
+import HorizontalNonLinearStepper from "../components/HorizontalNonLinearStepper";
 
 const CadastrarSe = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [nome, setNome] = useState("");
+  const [bio, setBio] = useState("");
+  const [step, setStep] = useState(0);
   const navigate = useNavigate();
 
   const handleRegister = async () => {
@@ -20,47 +23,123 @@ const CadastrarSe = () => {
     }
   };
 
+  const handleNextStep = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
+
+  const handleBackStep = () => {
+    setStep((prevStep) => prevStep - 1);
+  };
+
   return (
     <Box
       sx={{
-        minHeight: "90vh",
+        flexGrow: 1,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(to right, #ffffff, #f1e7ff)",
-        padding: 2,
-        paddingTop: "80px",  
+        backgroundImage: "url('../src/img/3380640.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
-      <Paper elevation={6} sx={{ p: 5, maxWidth: 400, width: "100%", textAlign: "center" }}>
-        <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold", color: "#996AF9" }}>
-          Cadastrar-se
-        </Typography>
-        <TextField
-          label="Email"
-          variant="outlined"
-          fullWidth
-          sx={{ mb: 2 }}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+      <Paper elevation={6} sx={{ p: 5, textAlign: "center", width: "400px" }}>
+        <HorizontalNonLinearStepper
+          step={step}
+          handleNextStep={handleNextStep}
+          handleBackStep={handleBackStep}
         />
-        <TextField
-          label="Senha"
-          type="password"
-          variant="outlined"
-          fullWidth
-          sx={{ mb: 3 }}
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-        />
-        <Button
-          variant="contained"
-          fullWidth
-          sx={{ backgroundColor: "#996AF9", "&:hover": { backgroundColor: "#7c4de3" } }}
-          onClick={handleRegister}
-        >
-          Criar Conta
-        </Button>
+
+        {step === 0 && (
+          <>
+            <TextField
+              label="Email"
+              variant="standard"
+              fullWidth
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              sx={{
+                mb: 2,
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "#996AF9",
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#996AF9",
+                },
+              }}
+            />
+            <TextField
+              label="Senha"
+              type="password"
+              variant="standard"
+              fullWidth
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              sx={{
+                mb: 3,
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "#996AF9",
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#996AF9",
+                },
+              }}
+            />
+          </>
+        )}
+
+        {step === 1 && (
+          <>
+            <TextField
+              label="Nome"
+              variant="standard"
+              fullWidth
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              sx={{
+                mb: 2,
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "#996AF9",
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#996AF9",
+                },
+              }}
+            />
+            <TextField
+              label="Bio"
+              variant="standard"
+              fullWidth
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              sx={{
+                mb: 3,
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "#996AF9",
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#996AF9",
+                },
+              }}
+            />
+          </>
+        )}
+
+        {step === 1 && (
+          <Button
+            variant="contained"
+            fullWidth
+            sx={{
+              backgroundColor: "#996AF9",
+              marginTop: "20px",
+              "&:hover": { backgroundColor: "#7c4de3" },
+            }}
+            onClick={handleRegister}
+          >
+            Criar Conta
+          </Button>
+        )}
       </Paper>
     </Box>
   );
