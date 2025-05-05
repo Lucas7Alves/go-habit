@@ -11,11 +11,8 @@
     <!-- Botão Voltar -->
     <ImageButton
         android:id="@+id/button_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/voltar_button"
-        android:src="@drawable/ic_arrow_left" />
+        style="@style/BackButton"
+        />
 
     <!-- Título -->
     <TextView
@@ -50,7 +47,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:src="@drawable/white_boy"
-            android:background=""
             />
 
         <ImageButton

@@ -1,6 +1,8 @@
 package com.souunit.gohabit.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -18,8 +20,7 @@ public class FormCadPerfil extends AppCompatActivity {
             R.drawable.brown_girl,
             R.drawable.black_boy,
             R.drawable.black_girl,
-            R.drawable.light_brown_boy,
-            R.drawable.light_brown_girl,
+            //light_bronw_boy and girl removed for an error inexplicable
             R.drawable.malhado_boy,
             R.drawable.malhado_girl,
             R.drawable.white_boy,
@@ -27,7 +28,7 @@ public class FormCadPerfil extends AppCompatActivity {
     };
 
     int currentAvatarIndex = 0;
-    ImageView avatarImageView;
+    ImageView avatarImageView, backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,15 @@ public class FormCadPerfil extends AppCompatActivity {
             if (currentAvatarIndex < avatars.length - 1) {
                 currentAvatarIndex++;
                 avatarImageView.setImageResource(avatars[currentAvatarIndex]);
+            }
+        });
+
+        backButton = findViewById(R.id.button_back);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FormCadPerfil.this, FormCadastro.class);
+                startActivity(intent);
             }
         });
     }

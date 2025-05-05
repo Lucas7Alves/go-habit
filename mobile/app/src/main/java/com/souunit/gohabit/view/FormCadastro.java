@@ -2,9 +2,11 @@ package com.souunit.gohabit.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -16,20 +18,21 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.souunit.gohabit.FormLogin;
 import com.souunit.gohabit.R;
-import com.souunit.gohabit.model.User;
 
 public class FormCadastro extends AppCompatActivity {
 
     Button btnCadastro;
     EditText editTextEmail, editTextPassword, editTextRepeatPassword;
 
-    User user = new User();
+    ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +45,31 @@ public class FormCadastro extends AppCompatActivity {
             return insets;
         });
 
-        btnCadastro = findViewById(R.id.buttonConfirm);
+        try {
+            FirebaseApp.initializeApp(this);
+            Log.d("FIREBASE_INIT", "Firebase inicializado: " + FirebaseAuth.getInstance().getApp().getName());
+        } catch (Exception e) {
+            Log.e("FIREBASE_INIT", "Erro ao inicializar Firebase", e);
+            Snackbar.make(findViewById(R.id.layout_register), "Falha ao conectar com o servidor", Snackbar.LENGTH_LONG).show();
+            return; // Impede continuar se o Firebase não inicializar
+        }
 
+        btnCadastro = findViewById(R.id.buttonConfirm);
+        iniciarComponentes();
         btnCadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iniciarComponentes();
-                Intent intent = new Intent(FormCadastro.this, FormCadPerfil.class);
+
+                cadastrarUsuario();
+            }
+        });
+
+        backButton = findViewById(R.id.button_back);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FormCadastro.this, FormLogin.class);
                 startActivity(intent);
             }
         });
@@ -62,16 +83,33 @@ public class FormCadastro extends AppCompatActivity {
     }
 
     private void cadastrarUsuario() {
-        String email = editTextEmail.getText().toString();
-        String password = editTextPassword.getText().toString();
-        String repeatPassword = editTextRepeatPassword.getText().toString();
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+        String repeatPassword = editTextRepeatPassword.getText().toString().trim();
 
+        if (email.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
+            Snackbar.make(findViewById(R.id.layout_register), "Preencha todos os campos!", Snackbar.LENGTH_SHORT).show();
+            return;
+        }
 
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Snackbar.make(findViewById(R.id.layout_register), "E-mail inválido!", Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!password.equals(repeatPassword)) {
+            Snackbar.make(findViewById(R.id.layout_register), "As senhas não coincidem!", Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+
+        Snackbar.make(findViewById(R.id.layout_register), "kd o fire", Snackbar.LENGTH_SHORT).show();
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 Snackbar snackbar;
+
                 if (task.isSuccessful()) {
+
                     snackbar = Snackbar.make(findViewById(R.id.layout_register), "Cadastro efetuado com sucesso!", Snackbar.LENGTH_SHORT);
 
                     Intent intent = new Intent(FormCadastro.this, FormCadPerfil.class);
@@ -99,6 +137,9 @@ public class FormCadastro extends AppCompatActivity {
 
                 }
             }
+        }).addOnFailureListener(e -> {
+            Log.e("FIREBASE_AUTH", "Erro Firebase", e);
         });
+        ;
     }
 }
