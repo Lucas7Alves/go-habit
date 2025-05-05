@@ -73,12 +73,12 @@
         android:gravity="center_horizontal"
         />
     <EditText
-        android:id="@+id/editTextEmail"
+        android:id="@+id/editTextBio"
         style="@style/EditTextDefault"
         android:background="@drawable/edit_text_no_underline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress" />
+        android:inputType="text" />
 
     <!-- Campo nome -->
     <TextView
@@ -92,12 +92,12 @@
         android:gravity="center_horizontal"
         />
     <EditText
-        android:id="@+id/editTextPassword"
+        android:id="@+id/editTextNome"
         style="@style/EditTextDefault"
         android:background="@drawable/edit_text_no_underline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
+        android:inputType="text"
         android:padding="12dp"
         />
 

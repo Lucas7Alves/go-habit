@@ -54,7 +54,7 @@ public class FormLogin extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Intent intent = new Intent(FormLogin.this, PrincipalSolo.class);
                     startActivity(intent);
-                    finish(); // finaliza login pra não voltar com back
+                    finish();
                 } else {
                     String erro = "Erro ao fazer login.";
                     try {

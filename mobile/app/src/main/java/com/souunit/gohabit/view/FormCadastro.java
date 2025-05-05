@@ -2,7 +2,6 @@ package com.souunit.gohabit.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.souunit.gohabit.FormLogin;
 import com.souunit.gohabit.R;
 
+import java.util.Objects;
+
 public class FormCadastro extends AppCompatActivity {
 
     Button btnCadastro;
@@ -47,11 +48,9 @@ public class FormCadastro extends AppCompatActivity {
 
         try {
             FirebaseApp.initializeApp(this);
-            Log.d("FIREBASE_INIT", "Firebase inicializado: " + FirebaseAuth.getInstance().getApp().getName());
         } catch (Exception e) {
-            Log.e("FIREBASE_INIT", "Erro ao inicializar Firebase", e);
             Snackbar.make(findViewById(R.id.layout_register), "Falha ao conectar com o servidor", Snackbar.LENGTH_LONG).show();
-            return; // Impede continuar se o Firebase não inicializar
+            return;
         }
 
         btnCadastro = findViewById(R.id.buttonConfirm);
@@ -102,19 +101,20 @@ public class FormCadastro extends AppCompatActivity {
             return;
         }
 
-        Snackbar.make(findViewById(R.id.layout_register), "kd o fire", Snackbar.LENGTH_SHORT).show();
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 Snackbar snackbar;
 
                 if (task.isSuccessful()) {
-
+                    AuthResult authResult = task.getResult();
+                    String uid = Objects.requireNonNull(authResult.getUser()).getUid();
                     snackbar = Snackbar.make(findViewById(R.id.layout_register), "Cadastro efetuado com sucesso!", Snackbar.LENGTH_SHORT);
 
                     Intent intent = new Intent(FormCadastro.this, FormCadPerfil.class);
+                    intent.putExtra("UID", uid);
                     startActivity(intent);
-
+                    finish();
                     snackbar.show();
                 } else {
                     String erro;
@@ -138,8 +138,7 @@ public class FormCadastro extends AppCompatActivity {
                 }
             }
         }).addOnFailureListener(e -> {
-            Log.e("FIREBASE_AUTH", "Erro Firebase", e);
-        });
-        ;
+            // TODO: fazer algo em caso de erro
+            });
     }
 }
