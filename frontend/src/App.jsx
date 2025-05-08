@@ -7,6 +7,7 @@ import CadastrarSe from './pages/CadastrarSe';
 import Home from './pages/Home';
 import './App.css';
 import ButtonAppBar from './components/ButtonAppBar';
+import LoggedUser from './pages/loggedUser';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/cadastrar-se" element={<CadastrarSe />} />
         <Route path="/Home" element={<Home />} />
+        <Route path="/LoggedUser" element={<LoggedUser />} />
       </Routes>
     </BrowserRouter>
   );

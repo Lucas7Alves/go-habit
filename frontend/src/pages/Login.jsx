@@ -14,7 +14,7 @@ const Login = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, senha);
       const token = await userCredential.user.getIdToken();
       localStorage.setItem("token", token);
-      navigate("/"); 
+      navigate("/LoggedUser"); 
     } catch (error) {
       alert("Erro ao fazer login: " + error.message);
     }
