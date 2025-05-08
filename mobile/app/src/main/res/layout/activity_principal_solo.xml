@@ -212,11 +212,15 @@
         <!-- Fundo da barra -->
         <ImageView
             android:id="@+id/navbar_background"
-            android:layout_width="wrap_content"
+            android:layout_width="350dp"
             android:layout_height="match_parent"
             android:src="@drawable/rectangletaskbar"
             android:scaleType="fitCenter"
-            android:contentDescription="Fundo da barra de navegação" />
+            android:contentDescription="Fundo da barra de navegação"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 
 
@@ -258,13 +262,18 @@
         android:id="@+id/btn_profile"
         android:layout_width="90dp"
         android:layout_height="90dp"
+        android:layout_marginEnd="260dp"
+        android:layout_marginBottom="52dp"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
         android:contentDescription="Usuário"
         android:scaleType="centerCrop"
         android:src="@drawable/profilepurple"
-        android:translationX="10dp"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="591dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="80dp" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
