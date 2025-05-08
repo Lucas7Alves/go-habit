@@ -35,26 +35,31 @@
 
     <!-- Lista de tarefas -->
     <!-- Task 3 -->
+    <FrameLayout
+    android:id="@+id/task3"
+    android:layout_width="wrap_content"
+    android:layout_height="64dp"
+    android:layout_marginTop="290dp"
+    android:layout_marginStart="35dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <!-- Conteúdo da tarefa -->
     <LinearLayout
-        android:id="@+id/task3"
         android:layout_width="wrap_content"
-        android:layout_height="64dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
         android:background="@drawable/basetasks"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="290dp"
-        android:layout_marginStart="35dp">
+        android:paddingEnd="16dp">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:contentDescription="Feito"
             android:src="@drawable/checkmarkempty"
-            android:tint="@android:color/white" />
+            />
 
         <TextView
             android:id="@+id/task_text3"
@@ -62,97 +67,137 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_weight="1"
-            android:text="Fazer 50 polichinelos"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:contentDescription="Editar"
-            android:src="@drawable/taskeditor"
-            android:tint="@android:color/white" />
-    </LinearLayout>
-
-    <!-- Task 2 -->
-    <LinearLayout
-        android:id="@+id/task2"
-        android:layout_width="wrap_content"
-        android:layout_height="64dp"
-        android:background="@drawable/basetasks"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="204dp"
-        android:layout_marginStart="35dp">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="Feito"
-            android:src="@drawable/checkmarkempty"
-            android:tint="@android:color/white" />
-
-        <TextView
-            android:id="@+id/task_text2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_weight="1"
-            android:text="Fazer 20 abdominais"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:contentDescription="Editar"
-            android:src="@drawable/taskeditor"
-            android:tint="@android:color/white" />
-    </LinearLayout>
-
-    <!-- Task 1 -->
-    <LinearLayout
-        android:id="@+id/task1"
-        android:layout_width="wrap_content"
-        android:layout_height="64dp"
-        android:background="@drawable/basetasks"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="376dp"
-        android:layout_marginStart="35dp">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="Feito"
-            android:src="@drawable/checkmarkempty"
-            android:tint="@android:color/white" />
-
-        <TextView
-            android:id="@+id/task_text1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_weight="1"
+            android:fontFamily="@font/inter_bold"
             android:text="Beber 2 litros de água"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:contentDescription="Editar"
             android:src="@drawable/taskeditor"
-            android:tint="@android:color/white" />
+             />
     </LinearLayout>
+
+    <!-- Barrinha de progresso -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_gravity="bottom"
+        android:src="@drawable/greentag"
+        android:contentDescription="Indicador de progresso" />
+</FrameLayout>
+
+
+    <!-- Task 2 -->
+    <FrameLayout
+        android:id="@+id/task2"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:layout_marginTop="204dp"
+        android:layout_marginStart="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Conteúdo da tarefa -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:background="@drawable/basetasks"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="Feito"
+                android:src="@drawable/checkmarkempty"
+                />
+
+            <TextView
+                android:id="@+id/task_text2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/inter_bold"
+                android:text="Beber 2 litros de água"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:contentDescription="Editar"
+                android:src="@drawable/taskeditor" />
+        </LinearLayout>
+
+        <!-- Barrinha inferior -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/redtag"
+            android:contentDescription="Indicador de cor" />
+    </FrameLayout>
+
+    <!-- Task 1 -->
+    <FrameLayout
+        android:id="@+id/task1"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:layout_marginTop="376dp"
+        android:layout_marginStart="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Conteúdo da tarefa -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:background="@drawable/basetasks"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="Feito"
+                android:src="@drawable/checkmarkempty"
+                 />
+
+            <TextView
+                android:id="@+id/task_text1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/inter_bold"
+                android:text="Fazer 50 polichinelos"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:contentDescription="Editar"
+                android:src="@drawable/taskeditor"
+                 />
+        </LinearLayout>
+
+        <!-- Barrinha de progresso -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/yellowtag"
+            android:contentDescription="Indicador de progresso" />
+    </FrameLayout>
 
     <!-- Barra de navegação inferior -->
     <androidx.constraintlayout.widget.ConstraintLayout

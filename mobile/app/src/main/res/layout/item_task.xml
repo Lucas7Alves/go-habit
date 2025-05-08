@@ -5,14 +5,14 @@
         android:layout_height="64dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="@drawable/bg_card"
+        android:background="@drawable/ic_launcher_background"
         android:paddingStart="16dp"
         android:paddingEnd="16dp">
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_check"
+            android:src="@drawable/common_full_open_on_phone"
             android:contentDescription="Feito"
             android:tint="@android:color/white"/>
 
@@ -29,7 +29,7 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/ic_edit"
+            android:src="@drawable/ic_launcher_background"
             android:contentDescription="Editar"
             android:tint="@android:color/white"/>
     </LinearLayout>
