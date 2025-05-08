@@ -68,7 +68,7 @@
             android:layout_marginStart="12dp"
             android:layout_weight="1"
             android:fontFamily="@font/inter_bold"
-            android:text="Beber 2 litros de água"
+            android:text="Fazer 20 abdominais"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
