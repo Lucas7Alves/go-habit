@@ -1,1 +1,1 @@
-# go-habit
+# GoHabit
