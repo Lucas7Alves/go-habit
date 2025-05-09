@@ -4,7 +4,6 @@ import QuemSomos from './pages/QuemSomos';
 import NossaSolucao from './pages/NossaSolucao';
 import Login from './pages/Login';
 import CadastrarSe from './pages/CadastrarSe';
-import Home from './pages/Home';
 import './App.css';
 import ButtonAppBar from './components/ButtonAppBar';
 import LoggedUser from './pages/loggedUser';
@@ -22,7 +21,6 @@ function App() {
         <Route path="/nossa-solucao" element={<NossaSolucao />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastrar-se" element={<CadastrarSe />} />
-        <Route path="/Home" element={<Home />} />
         <Route path="/LoggedUser" element={<LoggedUser />} />
       </Routes>
     </BrowserRouter>

@@ -40,7 +40,8 @@ const CadastrarSe = () => {
         justifyContent: "center",
         backgroundImage: "url('../src/img/3380640.jpg')",
         backgroundSize: "cover",
-        
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <Paper elevation={6} sx={{ p: 5, textAlign: "center", width: "400px" }}>
@@ -127,7 +128,7 @@ const CadastrarSe = () => {
 
         {step === 1 && (
           <Button
-            variant="contained"
+            variant="contained" 
             fullWidth
             sx={{
               backgroundColor: "#996AF9",

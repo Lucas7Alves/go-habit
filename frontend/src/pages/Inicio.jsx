@@ -1,4 +1,3 @@
-
 export default function Inicio() {
     return (
         <div id="main">
@@ -7,14 +6,36 @@ export default function Inicio() {
             </p>
             <p>O projeto terá acesso mobile para dispositivos Android, para que o maior número de pessoas possa ter acesso, tendo prazo de conclusão em Junho de 2025. Para manter a qualidade da aplicação as etapas a serem implementadas são Criação do plano de ação, Realização das ações necessárias, e  Manutenção da aplicação, tendo como uma das metas a elaboração de um MVP (Mínimo Produto Viável) para confirmar se o produto final conseguirá atingir os resultados esperados. Relacionado a gastos de produção, espera que os únicos gastos sejam com a licença para publicar na loja Play Store e com a hospedagem do site.
             </p>
-            <h2>Detalhes do Desafio</h2>
-            <p>O desafio consiste no desenvolvimento de um site para apresentar o projeto ao público em geral, utilizando plataformas como GitHub Pages ou Google Sites. O objetivo é criar uma forma clara e acessível de explicar o projeto, com o link do site sendo entregue ao professor, juntamente com uma apresentação sobre o que foi realizado até o momento. A apresentação será feita por um membro da equipe, mas todos devem estar presentes para responder a perguntas e esclarecimentos.
-            </p>
-            <p>Além disso, é necessário complementar o site com a entrega de um protótipo funcional da solução idealizada. A equipe também precisa preencher um formulário de avaliação 360º, que será utilizado para avaliar cada integrante com base na contribuição individual, impactando diretamente a nota final, que será ponderada pela nota do grupo.
-            </p>
-            <p>Por fim, a entrega incluirá o planejamento das etapas de desenvolvimento e testes, com o Product Backlog inicial, os Sprint Backlogs e as primeiras funcionalidades já implementadas. O desafio visa aplicar os conhecimentos adquiridos e aprimorar o trabalho em equipe ao longo de todo o processo.
-            </p>
+
             <h2>Parceiros</h2>
+            <div id="perfil">
+                <section>
+                    <img src="../src/img/Rucks-House.png" alt="Logo da Marca Ruck's House" />
+                    <article>
+                        <h3>Ruck's House</h3>
+                        <p>A Ruck's House nasceu do sonho de um casal que superou problemas de saúde ao adotar uma alimentação natural e equilibrada. Hoje, a loja oferece produtos orgânicos, integrais e sem aditivos, promovendo uma vida mais saudável para todos.</p>
+                        <h4>Usuários ativos do GoHabit têm descontos exclusivos em nossos produtos naturais e ainda podem montar kits semanais para manter a alimentação no ritmo certo.</h4>
+                    </article>
+                </section>
+
+                <section style={{backgroundColor: 'rgb(54, 54, 54)'}}>
+                    <img src="../src/img/ModaFit.png" alt="Logo da Marca ModaFit" />
+                    <article>
+                        <h3>ModaFit</h3>
+                        <p>A ModaFit surgiu da paixão por movimento e natureza de um grupo de jovens atletas que buscavam roupas confortáveis sem agredir o meio ambiente. Inconformados com a poluição da indústria têxtil, criaram uma marca de moda fitness com tecidos reciclados, produção local e impacto ambiental reduzido.</p>
+                        <h4>Treinou com frequência no GoHabit? Ganhe descontos em roupas fitness sustentáveis e acesse coleções criadas para quem vive o movimento com saúde.</h4>
+                    </article>
+                </section>
+
+                <section>
+                    <img src="../src/img/ZenMove.png" alt="Logo da Marca ZenMove" />
+                    <article>
+                        <h3>ZenMove</h3>
+                        <p>Criada por uma fisioterapeuta e um educador físico, a ZenMove une práticas como yoga, pilates e funcional para promover o equilíbrio corpo-mente. A missão é incentivar o movimento como ferramenta de transformação pessoal.</p>
+                        <h4>Se você está entre os destaques do GoHabit, suas aulas mensais são por nossa conta! E se é assinante da plataforma, aproveite nossos planos com valor especial.</h4>
+                    </article>
+                </section>
+            </div>
         </div>
     )
 }

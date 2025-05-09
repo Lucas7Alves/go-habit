@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import UserProfile from "../components/UserProfile";
 import Relatorio from "../components/Relatorio";
 import { userDataMock } from "../backendMock/UserDataMock"; // troca pela API real depois
+import MeuGrafico from "../components/MeuGrafico";
 
 export default function LoggedUser() {
   const [userData, setUserData] = useState(null);
@@ -18,6 +19,7 @@ export default function LoggedUser() {
   return (
     <div style={{ padding: "2rem", color: 'black' }}>
       <UserProfile name={userData.name} avatar={userData.avatar} />
+      <MeuGrafico />
       <Relatorio goals={userData.weekly_goals} />
     </div>
   );

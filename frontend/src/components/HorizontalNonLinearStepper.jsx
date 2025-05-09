@@ -10,7 +10,7 @@ const steps = ['Cadastrando a conta', 'Criando perfil'];
 export default function HorizontalNonLinearStepper({ step, handleNextStep, handleBackStep }) {
   return (
     <Box sx={{ width: '100%' }}>
-      <Stepper nonLinear activeStep={step} sx={{ maxWidth: '33vw', margin: '0 auto' }}>
+      <Stepper nonLinear activeStep={step} sx={{ maxWidth: '85%', margin: '0 auto' }}>
         {steps.map((label, index) => {
           const isActive = index === step;
 
