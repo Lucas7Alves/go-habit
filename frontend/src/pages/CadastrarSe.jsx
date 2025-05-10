@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
+import { auth, db } from "../firebase/firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { Box, TextField, Button, Paper } from "@mui/material";
 import HorizontalNonLinearStepper from "../components/HorizontalNonLinearStepper";
@@ -15,7 +16,17 @@ const CadastrarSe = () => {
 
   const handleRegister = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, senha);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+      const user = userCredential.user;
+
+      // Salva nome, bio e email no Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        nome: nome,
+        bio: bio,
+        email: email,
+        pontos: 0, // inicializa pontos, caso use gamificação
+      });
+
       alert("Cadastro realizado com sucesso!");
       navigate("/login");
     } catch (error) {
@@ -128,7 +139,7 @@ const CadastrarSe = () => {
 
         {step === 1 && (
           <Button
-            variant="contained" 
+            variant="contained"
             fullWidth
             sx={{
               backgroundColor: "#996AF9",
