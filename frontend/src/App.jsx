@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Inicio from './pages/Inicio';
+import QuemSomos from './pages/QuemSomos';
+import NossaSolucao from './pages/NossaSolucao';
+import Login from './pages/Login';
+import CadastrarSe from './pages/CadastrarSe';
+import './App.css';
+import ButtonAppBar from './components/ButtonAppBar';
+import LoggedUser from './pages/loggedUser';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter >
+      {/* Navbar aparece em todas as páginas */}
+      <ButtonAppBar />
+
+      {/* Conteúdo de cada rota */}
+      <Routes>
+        <Route path="/" element={<Inicio />} />
+        <Route path="/quem-somos" element={<QuemSomos />} />
+        <Route path="/nossa-solucao" element={<NossaSolucao />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/cadastrar-se" element={<CadastrarSe />} />
+        <Route path="/LoggedUser" element={<LoggedUser />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
