@@ -1,6 +1,8 @@
 package com.souunit.gohabit.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,6 +46,18 @@ public class PrincipalSolo extends AppCompatActivity {
         task1.setText("Beber 2 litros de água");
         task2.setText("Fazer 20 abdominais");
         task3.setText("Fazer 50 polichinelos");
+
+        btnAdd = findViewById(R.id.btn_add);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PrincipalSolo.this, AddMeta.class);
+            }
+        });
+
+
+
 
         // ===== buttons finish goals =====
         //TODO: linkar as metas com o firebase

@@ -41,4 +41,14 @@
         <item name="android:focusable">true</item>
         <item name="contentDescription">Voltar</item>
     </style>
+
+    <!-- Chip de dias -->
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="chipSurfaceColor">#FAFAFA</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 </resources>
