@@ -2,6 +2,8 @@ package com.souunit.gohabit.view;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -14,8 +16,12 @@ import com.souunit.gohabit.R;
 
 public class PrincipalSolo extends AppCompatActivity {
 
-    Button btnAdd, btn_team, btn_profile;
+    Button btn_team, btn_profile;
 
+    ImageButton btnAdd;
+
+    ImageView finishGoal, finishGoal2, finishGoal3;
+    boolean isChecked;
     TextView task1, task2, task3;
 
     @Override
@@ -28,7 +34,7 @@ public class PrincipalSolo extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
-        })
+        });
 
         // Referenciando e atualizando os textos das tarefas
         task1 = findViewById(R.id.task_text1);
@@ -39,6 +45,43 @@ public class PrincipalSolo extends AppCompatActivity {
         task2.setText("Fazer 20 abdominais");
         task3.setText("Fazer 50 polichinelos");
 
+        // ===== buttons finish goals =====
+        //TODO: linkar as metas com o firebase
+        //TODO: após concluir deixar um temponentinho verde, fazer um som "pop" e sair da tela
+        //TODO: após concluir contabilizar pontuação no firebase
+
+        //codigo base para futuras implementações
+        finishGoal = findViewById(R.id.finish_goal);
+        finishGoal.setOnClickListener(v -> {
+            if (isChecked) {
+                finishGoal.setImageResource(R.drawable.checkmarkempty);
+            } else {
+                finishGoal.setImageResource(R.drawable.checkmarkstilled);
+            }
+            isChecked = !isChecked;
+        });
+
+        finishGoal2 = findViewById(R.id.finish_goal2);
+
+        finishGoal2.setOnClickListener(v -> {
+            if (isChecked) {
+                finishGoal.setImageResource(R.drawable.checkmarkempty);
+            } else {
+                finishGoal.setImageResource(R.drawable.checkmarkstilled);
+            }
+            isChecked = !isChecked;
+        });
+
+        finishGoal3 = findViewById(R.id.finish_goal3);
+
+        finishGoal3.setOnClickListener(v -> {
+            if (isChecked) {
+                finishGoal.setImageResource(R.drawable.checkmarkempty);
+            } else {
+                finishGoal.setImageResource(R.drawable.checkmarkstilled);
+            }
+            isChecked = !isChecked;
+        });
 
     }
 }

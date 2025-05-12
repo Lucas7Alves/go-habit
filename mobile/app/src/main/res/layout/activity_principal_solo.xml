@@ -70,6 +70,7 @@
                     android:paddingEnd="16dp">
 
                     <ImageView
+                        android:id="@+id/finish_goal"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:contentDescription="Feito"
@@ -128,6 +129,7 @@
                     android:paddingEnd="16dp">
 
                     <ImageView
+                        android:id="@+id/finish_goal2"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:contentDescription="Feito"
@@ -186,6 +188,7 @@
                     android:paddingEnd="16dp">
 
                     <ImageView
+                        android:id="@+id/finish_goal3"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:contentDescription="Feito"
@@ -194,113 +197,6 @@
 
                     <TextView
                         android:id="@+id/task_text1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/inter_bold"
-                        android:text="Fazer 50 polichinelos"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:contentDescription="Editar"
-                        android:src="@drawable/taskeditor"
-                        />
-                </LinearLayout>
-
-                <!-- Barrinha de progresso -->
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_gravity="bottom"
-                    android:src="@drawable/yellowtag"
-                    android:contentDescription="Indicador de progresso"
-                    android:layout_marginBottom="10dp"
-                    />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="340dp"
-                android:layout_height="94dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <!-- Conteúdo da tarefa -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:background="@drawable/basetasks"
-                    android:gravity="center_vertical"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:contentDescription="Feito"
-                        android:src="@drawable/checkmarkempty"
-                        />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/inter_bold"
-                        android:text="Fazer 50 polichinelos"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:contentDescription="Editar"
-                        android:src="@drawable/taskeditor"
-                        />
-                </LinearLayout>
-
-                <!-- Barrinha de progresso -->
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_gravity="bottom"
-                    android:src="@drawable/yellowtag"
-                    android:contentDescription="Indicador de progresso"
-                    android:layout_marginBottom="10dp"
-                    />
-            </FrameLayout>
-            <FrameLayout
-                android:layout_width="340dp"
-                android:layout_height="94dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <!-- Conteúdo da tarefa -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:background="@drawable/basetasks"
-                    android:gravity="center_vertical"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:contentDescription="Feito"
-                        android:src="@drawable/checkmarkempty"
-                        />
-
-                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
