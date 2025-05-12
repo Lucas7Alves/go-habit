@@ -50,6 +50,20 @@ body{
   gap: 15px;
 }
 
+.conteudo{
+  background-color: #242424;
+  width: 80vw;
+  height: 100vh;
+  padding: 40px 40px 0px 40px;
+  box-sizing: border-box;
+}
+.conteudo h2{
+  margin-top: 0;
+}
+.conteudo p{
+  margin-bottom: 20px;
+}
+
 section{
   display: flex;
   align-items: center;
@@ -122,6 +136,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 /* <------------------------------------------------ ELEMENTOS */
+
 
 
 /* PARA TEMA CLARO ------------------------------------------------> */

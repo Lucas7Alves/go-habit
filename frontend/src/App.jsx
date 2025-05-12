@@ -6,13 +6,17 @@ import Login from './pages/Login';
 import CadastrarSe from './pages/CadastrarSe';
 import './App.css';
 import ButtonAppBar from './components/ButtonAppBar';
-import LoggedUser from './pages/loggedUser';
+import LoggedUser from './pages/LoggedUser';
+import BotaoTopo from './components/BotaoTopo';
 
 function App() {
   return (
     <BrowserRouter >
       {/* Navbar aparece em todas as páginas */}
       <ButtonAppBar />
+
+      {/* Botão para voltar ao topo */}
+      <BotaoTopo />
 
       {/* Conteúdo de cada rota */}
       <Routes>

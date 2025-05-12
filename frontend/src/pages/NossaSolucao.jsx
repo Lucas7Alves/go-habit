@@ -1,11 +1,13 @@
 export default function NossaSolucao() {
     return (
-        <div id="main">
-            <h2>Problemática</h2>
-            <p>De acordo com uma pesquisa feita pela  Fundação Oswaldo Cruz, a maior instituição de pesquisa biomédica da América latina, 56% dos brasileiros estão em sobrepeso ou obesos. Isto se dá devido a dificuldade que a população possui em estabelecer uma rotina de hábitos saudáveis.</p>
-            <h2>Solução</h2>
-            <p>Uma aplicação mobile que possui como principal objetivo incentivar grupos de amigos desenvolver e manter hábitos saudáveis através de definição de metas dinâmicas e desafios semanais para mantê-los engajados e em constante evolução.
-            </p>
+        <div id="main" style={{backgroundImage: "url(../src/img/3380640.jpg)", height: "100%", backgroundSize: "cover", height: "100vh", backgroundRepeat: "no-repeat", justifyItems: "center"}}>
+            <div class="conteudo">
+                <h2 class="fundo">Problemática</h2>
+                <p>Segundo a Fiocruz, 56% dos brasileiros estão com sobrepeso ou obesidade, reflexo da dificuldade em manter hábitos saudáveis como boa alimentação, exercícios e sono adequado. Fatores como sedentarismo, alimentação inadequada, rotina estressante e falta de apoio coletivo contribuem para esse cenário. É essencial promover soluções que incentivem e facilitem a adoção de rotinas saudáveis.</p>
+
+                <h2 class="fundo">Solução</h2>
+                <p>Uma aplicação mobile com o objetivo de incentivar grupos de amigos a desenvolver e manter hábitos saudáveis, por meio da definição de metas personalizadas e desafios semanais. A ideia é promover motivação mútua e engajamento contínuo, transformando a construção de uma rotina saudável em uma experiência coletiva, divertida e sustentável.</p>
+            </div>
         </div>
     )
 }
