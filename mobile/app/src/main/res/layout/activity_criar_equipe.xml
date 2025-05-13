@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Botão Voltar (PNG) -->
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/blackarrow"
+            android:contentDescription="Voltar" />
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crie sua toca!"
+            android:textColor="#A25BFF"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center" />
+
+        <!-- Texto: Nome da toca -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dê um nome a sua toca:"
+            android:layout_marginTop="24dp"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center" />
+
+        <!-- Campo EditText -->
+        <EditText
+            android:id="@+id/editNomeToca"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            android:drawableBottom="@android:drawable/divider_horizontal_dark"
+            android:hint="Nome da toca"
+            android:inputType="text"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textColor="#000000"
+            android:textColorHint="#C8C6C6" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC"
+            android:layout_marginTop="-4dp" />
+
+        <!-- Texto: Metas da toca -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Insira as metas da toca:"
+            android:layout_marginTop="34dp"
+            android:layout_margin="15dp"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center" />
+
+        <!-- Botões para lista -->
+        <Button
+            android:id="@+id/btnMeta1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Selecione uma meta"
+            android:gravity="start|center_vertical"
+            android:drawableEnd="@drawable/setabranca"
+            android:drawablePadding="8dp"
+            android:backgroundTint="#6413C3"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnMeta2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Selecione uma meta"
+            android:gravity="start|center_vertical"
+            android:drawableEnd="@drawable/setabranca"
+            android:drawablePadding="8dp"
+            android:backgroundTint="#6413C3"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnMeta3"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Selecione uma meta"
+            android:gravity="start|center_vertical"
+            android:drawableEnd="@drawable/setabranca"
+            android:drawablePadding="8dp"
+            android:backgroundTint="#6413C3"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnMeta4"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Selecione uma meta"
+            android:gravity="start|center_vertical"
+            android:drawableEnd="@drawable/setabranca"
+            android:drawablePadding="8dp"
+            android:backgroundTint="#6413C3"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnMeta5"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Selecione uma meta"
+            android:gravity="start|center_vertical"
+            android:drawableEnd="@drawable/setabranca"
+            android:drawablePadding="8dp"
+            android:backgroundTint="#6413C3"
+            android:textColor="#FFFFFF" />
+
+        <!-- Botão: Cadastrar equipe -->
+        <Button
+            android:id="@+id/btnCadastrarEquipe"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Cadastrar equipe!"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:backgroundTint="#A25BFF"
+            android:layout_marginTop="24dp"
+            android:elevation="4dp" />
+
+    </LinearLayout>
+</ScrollView>

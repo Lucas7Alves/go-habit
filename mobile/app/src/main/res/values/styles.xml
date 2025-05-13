@@ -51,4 +51,38 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <!-- Adicione os estilos aqui dentro -->
+    <style name="CustomSpinner" parent="Widget.AppCompat.Spinner">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:background">@drawable/spinner_background</item>
+        <item name="android:popupBackground">#7A3EFF</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:theme">@style/SpinnerWhiteArrow</item>
+    </style>
+
+    <style name="SpinnerWhiteArrow" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:colorControlNormal">#FFFFFF</item>
+    </style>
+
+    <style name="MetaButtonStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:backgroundTint">#333333</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:drawableEnd">@drawable/ic_arrow_down</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:insetLeft">0dp</item>
+    </style>
+
+
 </resources>
