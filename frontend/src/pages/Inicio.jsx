@@ -2,8 +2,8 @@ export default function Inicio() {
     return (
         <div id="main">
             <div class="Banner">
-                <img src="../src/img/banner.jpg" alt="banner" />
-                <h1>Comece hoje, transforme o amanhã!</h1>
+                <img src="../src/img/teste3.jpg" alt="banner" />
+                <h1>GoHabit: <br />sua rotina mais leve <br />e saudável.</h1>
             </div>
 
             <main>

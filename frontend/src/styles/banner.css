@@ -10,12 +10,12 @@
 .Banner h1{
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 30%;
     transform: translate(-50%, -50%);
     font-size: 45px;
     font-weight: bold;
     font-family: Tagesschrift;
-    border-bottom: 4px solid rgb(223, 214, 91);
-    padding-bottom: 1vh;
-    white-space: nowrap;
+    border-left: 4px solid rgb(223, 214, 91);
+    padding-left: 2vh;
+    text-align: start;
 }

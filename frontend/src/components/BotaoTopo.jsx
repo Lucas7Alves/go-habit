@@ -30,7 +30,7 @@ export default function BotaoTopo() {
           right: 16,
           zIndex: 1000,
           bgcolor: "#996AF9",
-          "&:hover": { bgcolor: "#7c4de3" }
+          "&:hover": { bgcolor: "#996AF9" }
         }}
       >
         <KeyboardArrowUpIcon />
