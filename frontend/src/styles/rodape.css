@@ -1,0 +1,27 @@
+footer{
+    background-color: #4623a7;
+    display: flex;
+    gap: 5vw;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    margin-top: 40px;
+}
+footer h1{
+    font-size: 20px;
+}
+
+.LogoGoHabit{
+    display: flex;
+    gap: 10px;
+}
+
+.LinksNavegacao{
+    display: flex;
+    gap: 15px;
+}
+
+.LinksNavegacao a{
+    color: white;
+    font-weight: bold;
+}

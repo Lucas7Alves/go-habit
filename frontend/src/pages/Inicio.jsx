@@ -1,3 +1,5 @@
+import Rodape from '../components/Rodape.jsx';
+
 export default function Inicio() {
     return (
         <div id="main">
@@ -41,6 +43,7 @@ export default function Inicio() {
                     </section>
                 </div>
             </main>
+            <Rodape />
         </div>
     )
 }

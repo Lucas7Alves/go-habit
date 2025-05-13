@@ -1,12 +1,13 @@
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
+import Rodape from '../components/Rodape.jsx';
 
 export default function QuemSomos() {
     return (
         <div id="main">
             <div class="Banner">
-                <img src="../src/img/banner.jpg" alt="banner" />
+                <img src="../src/img/teste3.jpg" alt="banner" />
                 <h1>Conhecendo os <br />Desenvolvedores</h1>
             </div>
 
@@ -78,7 +79,7 @@ export default function QuemSomos() {
                     </section>
                 </div>
                 <h2>Orientador</h2>
-                <section style={{marginBottom: '40px'}}>
+                <section>
                     <img src="../src/img/Vinicius-Amador.jpg" alt="Foto Vinícius Amador" />
                     <article>
                         <h3>Vinícius Amador</h3>
@@ -88,6 +89,7 @@ export default function QuemSomos() {
                     </article>
                 </section>
             </main>
+            <Rodape />
         </div>
     );
 }
