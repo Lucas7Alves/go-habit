@@ -1,3 +1,5 @@
+@import "styles/banner.css";
+
 /* BASE DAS PÁGINAS  ------------------------------------------------> */
 :root {
   line-height: 1.5;
@@ -27,6 +29,7 @@ body{
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 #root {
@@ -37,9 +40,12 @@ body{
   height: 100vh;
 }
 
-#main{
+main{
   padding: 0 10vh;
 }
+
+#main
+
 /* <------------------------------------------------ BASE DAS PÁGINAS */
 
 

@@ -1,0 +1,21 @@
+.Banner{
+    height: 55vh;
+    position: relative;
+}
+.Banner img{
+    height: 55vh;
+    min-width: 100%;
+    display: block;
+}
+.Banner h1{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 45px;
+    font-weight: bold;
+    font-family: Tagesschrift;
+    border-bottom: 4px solid rgb(223, 214, 91);
+    padding-bottom: 1vh;
+    white-space: nowrap;
+}
