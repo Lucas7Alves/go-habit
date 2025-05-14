@@ -14,6 +14,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.souunit.gohabit.FormLogin;
 import com.souunit.gohabit.R;
 
 public class PrincipalSolo extends AppCompatActivity {
@@ -24,7 +26,7 @@ public class PrincipalSolo extends AppCompatActivity {
 
     ImageView finishGoal, finishGoal2, finishGoal3;
     boolean isChecked;
-    TextView task1, task2, task3;
+    TextView task1, task2, task3, logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class PrincipalSolo extends AppCompatActivity {
         task3.setText("Fazer 50 polichinelos");
 
         btnAdd = findViewById(R.id.btn_add);
+        logout = findViewById(R.id.logout);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,5 +98,16 @@ public class PrincipalSolo extends AppCompatActivity {
             isChecked = !isChecked;
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        logout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this, FormLogin.class));
+            finish();
+        });
     }
 }
