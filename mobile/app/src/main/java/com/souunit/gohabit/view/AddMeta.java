@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class AddMeta extends AppCompatActivity {
     private ChipGroup weekDaysChipGroup;
     private ImageView dailyCheck, intensityThree, intensityTwo, intensityOne;
     private Button saveButton;
+    private ImageButton buttonBack;
 
     private boolean isDaily = false;
     private int selectedIntensity = 0; // 0=nada, 1=verde, 2=amarelo, 3=vermelho
@@ -59,6 +61,9 @@ public class AddMeta extends AppCompatActivity {
         intensityTwo = findViewById(R.id.intesity_two);
         intensityOne = findViewById(R.id.intesity_one);
         saveButton = findViewById(R.id.buttonLogin);
+        buttonBack = findViewById(R.id.button_back);
+
+        buttonBack.setOnClickListener(v -> finish());
 
         setupChipGroup();
         setupIntensitySelection();

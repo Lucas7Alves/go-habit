@@ -53,11 +53,9 @@ public class PrincipalSolo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PrincipalSolo.this, AddMeta.class);
+                startActivity(intent);
             }
         });
-
-
-
 
         // ===== buttons finish goals =====
         //TODO: linkar as metas com o firebase
