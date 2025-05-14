@@ -79,9 +79,9 @@ public class PrincipalSolo extends AppCompatActivity {
 
         finishGoal2.setOnClickListener(v -> {
             if (isChecked) {
-                finishGoal.setImageResource(R.drawable.checkmarkempty);
+                finishGoal2.setImageResource(R.drawable.checkmarkempty);
             } else {
-                finishGoal.setImageResource(R.drawable.checkmarkstilled);
+                finishGoal2.setImageResource(R.drawable.checkmarkstilled);
             }
             isChecked = !isChecked;
         });
@@ -90,9 +90,9 @@ public class PrincipalSolo extends AppCompatActivity {
 
         finishGoal3.setOnClickListener(v -> {
             if (isChecked) {
-                finishGoal.setImageResource(R.drawable.checkmarkempty);
+                finishGoal3.setImageResource(R.drawable.checkmarkempty);
             } else {
-                finishGoal.setImageResource(R.drawable.checkmarkstilled);
+                finishGoal3.setImageResource(R.drawable.checkmarkstilled);
             }
             isChecked = !isChecked;
         });
