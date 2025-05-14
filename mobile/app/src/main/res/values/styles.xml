@@ -10,6 +10,12 @@
         <item name="android:padding">12sp</item>
     </style>
 
+    <!-- splash theme-->
+    <style name="Theme.App.Starting" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowBackground">@drawable/malhado_boy</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="TitlePage" parent="TextAppearance.AppCompat">
         <item name="android:textColor">#996AF9</item>
         <item name="android:textSize">36sp</item>
@@ -40,6 +46,7 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="contentDescription">Voltar</item>
+
     </style>
 
     <!-- Chip de dias -->

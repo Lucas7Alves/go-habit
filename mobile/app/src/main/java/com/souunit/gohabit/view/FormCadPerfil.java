@@ -86,6 +86,7 @@ public class FormCadPerfil extends AppCompatActivity {
             }
         });
 
+
         buttonConfirm = findViewById(R.id.buttonConfirm);
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
