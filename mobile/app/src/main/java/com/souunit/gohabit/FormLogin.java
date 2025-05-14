@@ -27,6 +27,8 @@ public class FormLogin extends AppCompatActivity {
     EditText editTextEmail, editTextPassword;
     FirebaseAuth mAuth;
 
+    //TODO: FAZER FUNCIONAR O CURRENT USER
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +92,17 @@ public class FormLogin extends AppCompatActivity {
             startActivity(intent);
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            startActivity(new Intent(this, PrincipalSolo.class));
+            finish();
+        }
     }
 
     private void iniciarComponentes() {
