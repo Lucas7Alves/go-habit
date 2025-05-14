@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.souunit.gohabit.R;
+import com.souunit.gohabit.model.MetaStatus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,7 +161,8 @@ public class AddMeta extends AppCompatActivity {
         goal.put("days", isDaily ? getWeekDaysList() : selectedDays);
         goal.put("intensity", selectedIntensity);
         goal.put("createdAt", FieldValue.serverTimestamp());
-        goal.put("completed", false);
+        goal.put("status", MetaStatus.PENDING);
+
 
         // Referência aninhada ao usuário
         db.collection("users")
