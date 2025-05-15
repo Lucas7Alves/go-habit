@@ -4,9 +4,8 @@ export default function Relatorio({ goals }) {
   const [relatorioIA, setRelatorioIA] = useState("");
   const [erro, setErro] = useState("");
 
-  // Chamar backend para buscar o relatório gerado pela IA
   useEffect(() => {
-    fetch("http://localhost:5000/relatorio") // Ajuste se for em produção
+    fetch("http://localhost:5000/relatorio")
       .then((res) => res.json())
       .then((data) => {
         if (data.relatorio) {
@@ -18,7 +17,6 @@ export default function Relatorio({ goals }) {
       .catch((err) => setErro(err.message));
   }, []);
 
-  // Função para gerar o relatório com base nas metas
   const gerarRelatorioTexto = (goals) => {
     const total = goals.length;
     const concluidas = goals.filter((g) => g.status === "concluída").length;
@@ -26,9 +24,9 @@ export default function Relatorio({ goals }) {
 
     return `
       Você tem um total de ${total} metas semanais:
-       ${concluidas} metas foram concluídas.
-       ${pendentes} metas estão pendentes.
-       Confira abaixo sua lista de metas:
+      ${concluidas} metas foram concluídas.
+      ${pendentes} metas estão pendentes.
+      Confira abaixo sua lista de metas:
     `;
   };
 
@@ -103,32 +101,50 @@ export default function Relatorio({ goals }) {
             </p>
           ))}
 
-        {/* Relatório da IA */}
-        {relatorioIA && (
-          <div
-            style={{
-              marginTop: "30px",
-              backgroundColor: "#ffffffbb",
-              borderRadius: "10px",
-              padding: "20px",
-              maxWidth: "90%",
-              textAlign: "center",
-              color: "#222",
-              fontWeight: "normal",
-            }}
-          >
-            <h4 style={{ color: "#4427AF", marginBottom: "10px" }}>
-              Análise da Semana (IA)
-            </h4>
-            {relatorioIA.split("\n").map((linha, idx) => (
-              <p key={idx} style={{ marginBottom: "8px" }}>
-                {linha}
-              </p>
-            ))}
-          </div>
-        )}
+       {/* Relatório da IA */}
+{relatorioIA && (
+  <>
+    <h4
+      style={{
+        color: "#f6f6f6",
+        marginTop: "30px",
+        fontSize: "32px",
+        background: "#4427AF",
+        borderRadius: "10px",
+        padding: "10px 15px",
+        border: "4px solid #ffffff",
+      }}
+    >
+      Análise da Semana 
+    </h4>
 
-        {/* Erro (se houver) */}
+    <div
+      style={{
+        backgroundColor: "rgba(255, 255, 255, 0.85)",
+        borderRadius: "10px",
+        padding: "20px 25px",
+        marginTop: "15px",
+        maxWidth: "90%",
+        fontSize: "22px",
+        fontWeight: "bold",
+        color: "#4427AF",
+        lineHeight: "1.6",
+      }}
+    >
+      {relatorioIA
+        .split("\n")
+        .map((linha) => linha.trim())
+        .filter((linha) => linha !== "")
+        .map((linha, idx) => (
+          <p key={idx} style={{ marginBottom: "12px" }}>
+            {linha}
+          </p>
+        ))}
+    </div>
+  </>
+)}
+
+
         {erro && (
           <p style={{ color: "red", marginTop: "20px" }}>
             Erro ao carregar análise da IA: {erro}
