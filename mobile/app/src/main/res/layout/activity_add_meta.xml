@@ -93,7 +93,7 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_thu"
             style="@style/CustomChipStyle"
-            android:tag="thu"
+            android:tag="tue"
             android:text="@string/t_day"
             />
 
@@ -107,7 +107,7 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_tue"
             style="@style/CustomChipStyle"
-            android:tag="tue"
+            android:tag="thu"
             android:text="@string/q_day"
             />
 
