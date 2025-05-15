@@ -1,12 +1,17 @@
 package com.souunit.gohabit.view;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +20,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.souunit.gohabit.FormLogin;
 import com.souunit.gohabit.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class PrincipalSolo extends AppCompatActivity {
 
@@ -28,6 +41,8 @@ public class PrincipalSolo extends AppCompatActivity {
     boolean isChecked;
     TextView task1, task2, task3, logout;
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,10 +119,94 @@ public class PrincipalSolo extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        //chamada de métodos do firebase
+        setUsernameFromFireBase();
+        getGoalsFromFirestore();
+
+
         logout.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(this, FormLogin.class));
             finish();
         });
+    }
+
+    private void setUsernameFromFireBase() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            uid = currentUser.getUid();
+        }
+
+        db.collection("users")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String nome = documentSnapshot.getString("nome");
+
+                        TextView textNome = findViewById(R.id.username);
+
+                        textNome.setText(nome);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("FIRESTORE_ERROR", "Erro ao buscar dados", e);
+                });
+    }
+
+    private void getGoalsFromFirestore() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            uid = currentUser.getUid();
+        }
+
+        String currentDay = new SimpleDateFormat("EEEE", new Locale("en")).format(new Date());
+        currentDay = currentDay.substring(0,3);
+        String formatCurrentDay = currentDay.toLowerCase();
+
+        LinearLayout container = findViewById(R.id.containerMetas);
+
+        db.collection("users")
+                .document(uid)
+                .collection("goals")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    container.removeAllViews();
+
+                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                        List<String> dias = (List<String>) doc.get("days");
+
+                        if (dias == null) {
+                            Toast.makeText(this, "metas nulas", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "metas não nulas", Toast.LENGTH_SHORT).show();
+                        }
+
+                        if (dias != null && dias.contains(formatCurrentDay)) {
+                            String title = doc.getString("title");
+
+                            TextView card = new TextView(this);
+                            card.setText(title);
+                            card.setTextSize(18);
+                            card.setPadding(20, 20, 20, 20);
+                            card.setBackgroundResource(R.drawable.basetasks);
+                            card.setTextColor(Color.BLACK);
+
+                            container.addView(card);
+                        }
+                    }
+
+                    if (container.getChildCount() == 0) {
+                        TextView vazio = new TextView(this);
+                        vazio.setText("Nenhuma meta para hoje!");
+                        vazio.setTextSize(16);
+                        vazio.setGravity(Gravity.CENTER);
+                        container.addView(vazio);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("ERRO_GOALS", "erro na meta: " + e.getMessage());
+                });
+
     }
 }
