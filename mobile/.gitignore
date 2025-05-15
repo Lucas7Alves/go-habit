@@ -1,15 +1,41 @@
+# Gradle & Build
+.gradle/
+build/
+out/
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Android Studio (IDE)  
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+*.iws
+*.ipr
+.navigation/
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/deploymentTargetDropDown.xml
+
+# Local configuration (env variables, keys)  
 local.properties
+secrets.*
+*.keystore
+*.jks
+
+# System & OS  
+.DS_Store
+Thumbs.db
+
+# Logs & Temp Files  
+*.log
+*.tmp
+*.swp
+
+# NDK & External Builds  
+.externalNativeBuild/
+.cxx/
