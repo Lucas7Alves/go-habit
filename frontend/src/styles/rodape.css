@@ -18,10 +18,25 @@ footer h1{
 
 .LinksNavegacao{
     display: flex;
-    gap: 15px;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .LinksNavegacao a{
     color: white;
     font-weight: bold;
+}
+
+.LinksDocumentosLegais{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: left;
+}
+.LinksDocumentosLegais a{
+    color: white;
+}
+.LinksDocumentosLegais p{
+    text-indent: 0;
+    margin-bottom: 0;
 }

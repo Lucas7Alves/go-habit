@@ -1,0 +1,17 @@
+#documentoLegal{
+    margin: 40px 0px;
+}
+
+#documentoLegal h1{
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+#documentoLegal h3{
+    font-size: 17px;
+}
+
+
+#documentoLegal li{
+    text-align: left;
+}

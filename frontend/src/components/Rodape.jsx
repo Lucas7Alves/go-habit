@@ -12,11 +12,13 @@ export default function Rodape(){
                 <Link to="/">Início</Link>
                 <Link to="/quem-somos">Quem Somos</Link>
                 <Link to="/nossa-solucao">Nossa Solução</Link>
-                <Link></Link>
-                <Link></Link>
             </div>
 
-            <p>© 2025 GoHabit. Todos os direitos reservados.</p>
+            <div class="LinksDocumentosLegais">
+                <Link to="/politica-de-privacidade">Política de Privacidade</Link>
+                <Link to="/termos-de-uso">Termos de Uso</Link>
+                <p>© 2025 GoHabit. Todos os direitos reservados.</p>
+            </div>
         </footer>
     );
 }
