@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/add_meta"
+    android:id="@+id/edit_meta"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
@@ -30,7 +30,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
         android:gravity="center"
-        android:text="@string/add_meta_title" />
+        android:text="@string/edit_meta_title" />
 
     <TextView
         android:layout_width="match_parent"
@@ -81,7 +81,7 @@
             style="@style/CustomChipStyle"
             android:tag="sun"
             android:text="@string/d_day"
-                        />
+            />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_mon"
@@ -91,7 +91,7 @@
             />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip_tue"
+            android:id="@+id/chip_thu"
             style="@style/CustomChipStyle"
             android:tag="tue"
             android:text="@string/t_day"
@@ -105,7 +105,7 @@
             />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip_thu"
+            android:id="@+id/chip_tue"
             style="@style/CustomChipStyle"
             android:tag="thu"
             android:text="@string/q_day"
@@ -125,6 +125,8 @@
             android:tag="sat"
             android:text="@string/s_day"
             />
+
+        <!-- ... Repita para outros dias -->
     </com.google.android.material.chip.ChipGroup>
 
     <LinearLayout

@@ -2,7 +2,7 @@ package com.souunit.gohabit.model;
 
 public enum MetaStatus {
     COMPLETED ("completed"),
-    NOT_STARTED("not_started"),
+    NOT_COMPLETED("not_completed"),
     PENDING ("pending");
 
     private final String value;

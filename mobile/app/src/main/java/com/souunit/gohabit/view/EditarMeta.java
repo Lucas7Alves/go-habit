@@ -19,10 +19,10 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.souunit.gohabit.R;
-import com.souunit.gohabit.model.MetaStatus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,13 +30,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddMeta extends AppCompatActivity {
+public class EditarMeta extends AppCompatActivity {
 
     private EditText editTextMeta;
     private ChipGroup weekDaysChipGroup;
     private ImageView dailyCheck, intensityThree, intensityTwo, intensityOne;
     private Button saveButton;
     private ImageButton buttonBack;
+    private String metaId;
 
     private boolean isDaily = false;
     private int selectedIntensity = 0; // 0=nada, 1=verde, 2=amarelo, 3=vermelho
@@ -48,12 +49,21 @@ public class AddMeta extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_add_meta);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.add_meta), (v, insets) -> {
+        setContentView(R.layout.activity_editar_meta);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.edit_meta), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        metaId = getIntent().getStringExtra("metaId");
+
+
+        if (metaId == null || metaId.isEmpty()) {
+            Toast.makeText(this, "Erro: ID da meta não encontrado", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         editTextMeta = findViewById(R.id.editTextMeta);
         weekDaysChipGroup = findViewById(R.id.week_days_chip_group);
@@ -70,6 +80,15 @@ public class AddMeta extends AppCompatActivity {
         setupIntensitySelection();
         setupDailyToggle();
         setupSaveButton();
+        loadDataGoalFromFirestore();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+
     }
 
     private void setupChipGroup() {
@@ -137,10 +156,10 @@ public class AddMeta extends AppCompatActivity {
     }
 
     private void setupSaveButton() {
-        saveButton.setOnClickListener(v -> saveGoalToFirestore());
+        saveButton.setOnClickListener(v -> updateGoalFromFirestore(metaId));
     }
 
-    private void saveGoalToFirestore() {
+    private void updateGoalFromFirestore(String documentUid) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Toast.makeText(this, "Usuário não autenticado!", Toast.LENGTH_SHORT).show();
@@ -160,15 +179,13 @@ public class AddMeta extends AppCompatActivity {
         goal.put("title", title);
         goal.put("days", isDaily ? getWeekDaysList() : selectedDays);
         goal.put("intensity", selectedIntensity);
-        goal.put("createdAt", FieldValue.serverTimestamp());
-        goal.put("status", MetaStatus.NOT_COMPLETED.getValue());
-
 
         // Referência aninhada ao usuário
         db.collection("users")
                 .document(user.getUid())
                 .collection("goals")
-                .add(goal)
+                .document(documentUid)
+                .update(goal)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(this, "Meta salva com sucesso!", Toast.LENGTH_SHORT).show();
@@ -181,5 +198,58 @@ public class AddMeta extends AppCompatActivity {
 
     private List<String> getWeekDaysList() {
         return Arrays.asList("sun", "mon", "tue", "wed", "thu", "fri", "sat");
+    }
+
+    private void loadDataGoalFromFirestore() {
+        DocumentReference metaRef = db.collection("users")
+                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .collection("goals")
+                .document(metaId);
+
+        metaRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    String title = document.getString("title");
+                    List<String> selectedDays = (List<String>) document.get("days");
+                    int intensity = document.getLong("intensity").intValue();
+                    Map<String, Object> daysOfWeek = new HashMap<>();
+
+                    daysOfWeek.put("sun", R.id.chip_sun);
+                    daysOfWeek.put("mon", R.id.chip_mon);
+                    daysOfWeek.put("tue", R.id.chip_tue);  
+                    daysOfWeek.put("wed", R.id.chip_wed);
+                    daysOfWeek.put("thu", R.id.chip_thu); 
+                    daysOfWeek.put("fri", R.id.chip_fri);
+                    daysOfWeek.put("sat", R.id.chip_sat);
+
+                    for (int i = 0; i < weekDaysChipGroup.getChildCount(); i++) {
+                        Chip chip = (Chip) weekDaysChipGroup.getChildAt(i);
+                        String chipTag = chip.getTag().toString();
+
+                        if (selectedDays != null && selectedDays.contains(chipTag)) {
+                            chip.setChecked(true);
+                        } else {
+                            chip.setChecked(false);
+                        }
+                    }
+                    editTextMeta.setText(title);
+                    if (intensity == 1) {
+                        selectedIntensity = 1;
+                        intensityOne.setImageResource(R.drawable.checkmarkstilled);
+                    } else if (intensity == 2) {
+                        selectedIntensity = 2;
+                        intensityTwo.setImageResource(R.drawable.checkmarkstilled);
+                    } else if (intensity == 3) {
+                        selectedIntensity = 3;
+                        intensityThree.setImageResource(R.drawable.checkmarkstilled);
+                    }
+
+
+                }
+            } else {
+                Toast.makeText(this, "Erro: " + task.getException(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

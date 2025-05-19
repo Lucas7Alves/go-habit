@@ -252,6 +252,14 @@ public class PrincipalSolo extends AppCompatActivity {
                     editIcon.setLayoutParams(editParams);
                     editIcon.setContentDescription("Editar");
                     editIcon.setImageResource(R.drawable.taskeditor);
+                    editIcon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(PrincipalSolo.this, EditarMeta.class);
+                            intent.putExtra("metaId", doc.getId());
+                            startActivity(intent);
+                        }
+                    });
                     linearLayout.addView(editIcon);
 
                     // Adicionar LinearLayout ao FrameLayout
