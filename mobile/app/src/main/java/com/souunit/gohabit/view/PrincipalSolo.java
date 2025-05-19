@@ -27,13 +27,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.souunit.gohabit.FormLogin;
 import com.souunit.gohabit.R;
+import com.souunit.gohabit.model.MetaStatus;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class PrincipalSolo extends AppCompatActivity {
 
@@ -70,14 +74,10 @@ public class PrincipalSolo extends AppCompatActivity {
         });
 
         // ===== buttons finish goals =====
-        //TODO: Corrigir o desing das metas
-        //TODO: Concluir meta
-        //- calcular pontuação
-        //- momento da finalização (dia ou hora)
         //TODO: Excluir meta
         //TODO: Editar meta
         //- tela de editar meta
-        //- lógica de editar meta
+        //- lógica de editar meta
         //TODO: após concluir deixar um temponentinho verde, fazer um som "pop" e sair da tela
     }
 
@@ -132,149 +132,166 @@ public class PrincipalSolo extends AppCompatActivity {
 
         LinearLayout container = findViewById(R.id.containerMetas);
 
-        db.collection("users")
+        Query query =  db.collection("users")
                 .document(uid)
                 .collection("goals")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    container.removeAllViews();
+                .whereArrayContains("days", formatCurrentDay)
+                .whereEqualTo("status", "pending");
 
-                    int currentId = 0;
-                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+        query.addSnapshotListener((value, error) -> {
+            if (error != null) {
+                Toast.makeText(this, "Erro ao carregar", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                        currentId =+ 1;
-                        List<String> dias = (List<String>) doc.get("days");
+            container.removeAllViews();
 
-                        if (dias == null) {
-                            Toast.makeText(this, "metas nulas", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(this, "metas não nulas", Toast.LENGTH_SHORT).show();
-                        }
+            int currentId = 0;
+            for (DocumentSnapshot doc : value.getDocuments()) {
 
-                        if (dias != null && dias.contains(formatCurrentDay)) {
-                            String title = doc.getString("title");
+                currentId =+ 1;
+                List<String> dias = (List<String>) doc.get("days");
 
-                            // Criar o FrameLayout (container principal)
-                            FrameLayout taskFrame = new FrameLayout(this);
-                            FrameLayout.LayoutParams frameParams = new FrameLayout.LayoutParams(
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 340, getResources().getDisplayMetrics()),
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 94, getResources().getDisplayMetrics())
-                            );
-                            frameParams.gravity = Gravity.CENTER_HORIZONTAL;
-                            frameParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
-                            taskFrame.setLayoutParams(frameParams);
-                            taskFrame.setId(View.generateViewId());
 
-                            // Criar o LinearLayout (conteúdo da tarefa)
-                            LinearLayout linearLayout = new LinearLayout(this);
-                            linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                                    LinearLayout.LayoutParams.MATCH_PARENT
-                            ));
-                            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-                            linearLayout.setBackgroundResource(R.drawable.basetasks);
-                            linearLayout.setGravity(Gravity.CENTER_VERTICAL);
-                            linearLayout.setPadding(
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics()),
-                                    0,
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics()),
-                                    0
-                            );
+                if (dias != null && dias.contains(formatCurrentDay) && MetaStatus.PENDING.getValue().equals(doc.getString("status"))) {
+                    String title = doc.getString("title");
 
-                            // Criar ImageView (checkmark)
-                            ImageView finishGoal = new ImageView(this);
-                            LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics()),
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics())
-                            );
-                            finishGoal.setLayoutParams(checkParams);
-                            finishGoal.setId(View.generateViewId());
-                            finishGoal.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (isChecked) {
-                                        finishGoal.setImageResource(R.drawable.checkmarkempty);
-                                    } else {
-                                        finishGoal.setImageResource(R.drawable.checkmarkstilled);
-                                    }
-                                    isChecked = !isChecked;
-                                }
-                            });
-                            finishGoal.setContentDescription("Feito");
-                            finishGoal.setImageResource(R.drawable.checkmarkempty);
-                            linearLayout.addView(finishGoal);
+                    // Criar o FrameLayout (container principal)
+                    FrameLayout taskFrame = new FrameLayout(this);
+                    FrameLayout.LayoutParams frameParams = new FrameLayout.LayoutParams(
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 340, getResources().getDisplayMetrics()),
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 94, getResources().getDisplayMetrics())
+                    );
+                    frameParams.gravity = Gravity.CENTER_HORIZONTAL;
+                    frameParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+                    taskFrame.setLayoutParams(frameParams);
+                    taskFrame.setId(View.generateViewId());
 
-                            // Criar TextView (texto da tarefa)
-                            TextView taskText = new TextView(this);
-                            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
-                                    0,
-                                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                                    1
-                            );
-                            textParams.setMargins(
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics()),
-                                    0, 0, 0
-                            );
-                            taskText.setLayoutParams(textParams);
-                            taskText.setId(View.generateViewId());
-                            taskText.setText(title);
-                            taskText.setTextColor(Color.WHITE);
-                            taskText.setTypeface(ResourcesCompat.getFont(this, R.font.inter_bold), Typeface.BOLD);
-                            linearLayout.addView(taskText);
+                    // Criar o LinearLayout (conteúdo da tarefa)
+                    LinearLayout linearLayout = new LinearLayout(this);
+                    linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT
+                    ));
+                    linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                    linearLayout.setBackgroundResource(R.drawable.basetasks);
+                    linearLayout.setGravity(Gravity.CENTER_VERTICAL);
+                    linearLayout.setPadding(
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics()),
+                            0,
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics()),
+                            0
+                    );
 
-                            // Criar ImageView (ícone de editar)
-                            ImageView editIcon = new ImageView(this);
-                            LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics()),
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics())
-                            );
-                            editIcon.setLayoutParams(editParams);
-                            editIcon.setContentDescription("Editar");
-                            editIcon.setImageResource(R.drawable.taskeditor);
-                            linearLayout.addView(editIcon);
-
-                            // Adicionar LinearLayout ao FrameLayout
-                            taskFrame.addView(linearLayout);
-
-                            // Criar ImageView (barra de progresso)
-                            ImageView progressBar = new ImageView(this);
-                            FrameLayout.LayoutParams progressParams = new FrameLayout.LayoutParams(
-                                    FrameLayout.LayoutParams.MATCH_PARENT,
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics())
-                            );
-                            progressParams.gravity = Gravity.BOTTOM;
-                            progressParams.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
-                            progressBar.setLayoutParams(progressParams);
-                            progressBar.setContentDescription("Indicador de progresso");
-
-                            //TODO: lógica do progresso
-                            if (doc.getLong("intensity") == (long) 1) {
-                                progressBar.setImageResource(R.drawable.greentag);
-                            } else if (doc.getLong("intensity") == (long) 2) {
-                                progressBar.setImageResource(R.drawable.yellowtag);
+                    // Criar ImageView (checkmark)
+                    ImageView finishGoal = new ImageView(this);
+                    LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics()),
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics())
+                    );
+                    finishGoal.setLayoutParams(checkParams);
+                    finishGoal.setId(View.generateViewId());
+                    finishGoal.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (isChecked) {
+                                finishGoal.setImageResource(R.drawable.checkmarkempty);
                             } else {
-                                progressBar.setImageResource(R.drawable.redtag);
+                                finishGoal.setImageResource(R.drawable.checkmarkstilled);
+
+
+                                Map<String, Object> completedDate = new HashMap<>();
+                                completedDate.put("completedDate", new Date());
+
+                                db.collection("users")
+                                        .document(uid)
+                                        .collection("goals")
+                                        .document(doc.getId())
+                                        .update(completedDate);
+
+                                db.collection("users")
+                                        .document(uid)
+                                        .collection("goals")
+                                        .document(doc.getId())
+                                        .update("status", MetaStatus.COMPLETED.getValue())
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(PrincipalSolo.this, "Meta concluída!", Toast.LENGTH_SHORT).show();
+                                        });
                             }
-
-                            // Adicionar barra de progresso ao FrameLayout
-                            taskFrame.addView(progressBar);
-
-                            // Adicionar o card completo ao container
-                            container.addView(taskFrame);
+                            isChecked = !isChecked;
                         }
+                    });
+                    finishGoal.setContentDescription("Feito");
+                    finishGoal.setImageResource(R.drawable.checkmarkempty);
+                    linearLayout.addView(finishGoal);
+
+                    // Criar TextView (texto da tarefa)
+                    TextView taskText = new TextView(this);
+                    LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
+                            0,
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            1
+                    );
+                    textParams.setMargins(
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics()),
+                            0, 0, 0
+                    );
+                    taskText.setLayoutParams(textParams);
+                    taskText.setId(View.generateViewId());
+                    taskText.setText(title);
+                    taskText.setTextColor(Color.WHITE);
+                    taskText.setTypeface(ResourcesCompat.getFont(this, R.font.inter_bold), Typeface.BOLD);
+                    linearLayout.addView(taskText);
+
+                    // Criar ImageView (ícone de editar)
+                    ImageView editIcon = new ImageView(this);
+                    LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics()),
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics())
+                    );
+                    editIcon.setLayoutParams(editParams);
+                    editIcon.setContentDescription("Editar");
+                    editIcon.setImageResource(R.drawable.taskeditor);
+                    linearLayout.addView(editIcon);
+
+                    // Adicionar LinearLayout ao FrameLayout
+                    taskFrame.addView(linearLayout);
+
+                    // Criar ImageView (barra de progresso)
+                    ImageView progressBar = new ImageView(this);
+                    FrameLayout.LayoutParams progressParams = new FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics())
+                    );
+                    progressParams.gravity = Gravity.BOTTOM;
+                    progressParams.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+                    progressBar.setLayoutParams(progressParams);
+                    progressBar.setContentDescription("Indicador de progresso");
+
+                    if (doc.getLong("intensity") == (long) 1) {
+                        progressBar.setImageResource(R.drawable.greentag);
+                    } else if (doc.getLong("intensity") == (long) 2) {
+                        progressBar.setImageResource(R.drawable.yellowtag);
+                    } else {
+                        progressBar.setImageResource(R.drawable.redtag);
                     }
 
-                    if (container.getChildCount() == 0) {
-                        TextView vazio = new TextView(this);
-                        vazio.setText("Nenhuma meta para hoje!");
-                        vazio.setTextSize(16);
-                        vazio.setGravity(Gravity.CENTER);
-                        container.addView(vazio);
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("ERRO_GOALS", "erro na meta: " + e.getMessage());
-                });
+                    // Adicionar barra de progresso ao FrameLayout
+                    taskFrame.addView(progressBar);
+
+                    // Adicionar o card completo ao container
+                    container.addView(taskFrame);
+                }
+            }
+
+            if (container.getChildCount() == 0) {
+                TextView vazio = new TextView(this);
+                vazio.setText("Nenhuma meta para hoje!");
+                vazio.setTextSize(16);
+                vazio.setGravity(Gravity.CENTER);
+                container.addView(vazio);
+            }
+        });
 
     }
 }
