@@ -2,11 +2,14 @@ package com.souunit.gohabit.view;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -37,9 +41,8 @@ public class PrincipalSolo extends AppCompatActivity {
 
     ImageButton btnAdd;
 
-    ImageView finishGoal, finishGoal2, finishGoal3;
     boolean isChecked;
-    TextView task1, task2, task3, logout;
+    TextView logout;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String uid;
@@ -55,15 +58,6 @@ public class PrincipalSolo extends AppCompatActivity {
             return insets;
         });
 
-        // Referenciando e atualizando os textos das tarefas
-        task1 = findViewById(R.id.task_text1);
-        task2 = findViewById(R.id.task_text2);
-        task3 = findViewById(R.id.task_text3);
-
-        task1.setText("Beber 2 litros de água");
-        task2.setText("Fazer 20 abdominais");
-        task3.setText("Fazer 50 polichinelos");
-
         btnAdd = findViewById(R.id.btn_add);
         logout = findViewById(R.id.logout);
 
@@ -76,43 +70,15 @@ public class PrincipalSolo extends AppCompatActivity {
         });
 
         // ===== buttons finish goals =====
-        //TODO: linkar as metas com o firebase
+        //TODO: Corrigir o desing das metas
+        //TODO: Concluir meta
+        //- calcular pontuação
+        //- momento da finalização (dia ou hora)
+        //TODO: Excluir meta
+        //TODO: Editar meta
+        //- tela de editar meta
+        //- lógica de editar meta
         //TODO: após concluir deixar um temponentinho verde, fazer um som "pop" e sair da tela
-        //TODO: após concluir contabilizar pontuação no firebase
-
-        //codigo base para futuras implementações
-        finishGoal = findViewById(R.id.finish_goal);
-        finishGoal.setOnClickListener(v -> {
-            if (isChecked) {
-                finishGoal.setImageResource(R.drawable.checkmarkempty);
-            } else {
-                finishGoal.setImageResource(R.drawable.checkmarkstilled);
-            }
-            isChecked = !isChecked;
-        });
-
-        finishGoal2 = findViewById(R.id.finish_goal2);
-
-        finishGoal2.setOnClickListener(v -> {
-            if (isChecked) {
-                finishGoal2.setImageResource(R.drawable.checkmarkempty);
-            } else {
-                finishGoal2.setImageResource(R.drawable.checkmarkstilled);
-            }
-            isChecked = !isChecked;
-        });
-
-        finishGoal3 = findViewById(R.id.finish_goal3);
-
-        finishGoal3.setOnClickListener(v -> {
-            if (isChecked) {
-                finishGoal3.setImageResource(R.drawable.checkmarkempty);
-            } else {
-                finishGoal3.setImageResource(R.drawable.checkmarkstilled);
-            }
-            isChecked = !isChecked;
-        });
-
     }
 
     @Override
@@ -173,7 +139,10 @@ public class PrincipalSolo extends AppCompatActivity {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     container.removeAllViews();
 
+                    int currentId = 0;
                     for (DocumentSnapshot doc : queryDocumentSnapshots) {
+
+                        currentId =+ 1;
                         List<String> dias = (List<String>) doc.get("days");
 
                         if (dias == null) {
@@ -185,14 +154,113 @@ public class PrincipalSolo extends AppCompatActivity {
                         if (dias != null && dias.contains(formatCurrentDay)) {
                             String title = doc.getString("title");
 
-                            TextView card = new TextView(this);
-                            card.setText(title);
-                            card.setTextSize(18);
-                            card.setPadding(20, 20, 20, 20);
-                            card.setBackgroundResource(R.drawable.basetasks);
-                            card.setTextColor(Color.BLACK);
+                            // Criar o FrameLayout (container principal)
+                            FrameLayout taskFrame = new FrameLayout(this);
+                            FrameLayout.LayoutParams frameParams = new FrameLayout.LayoutParams(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 340, getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 94, getResources().getDisplayMetrics())
+                            );
+                            frameParams.gravity = Gravity.CENTER_HORIZONTAL;
+                            frameParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+                            taskFrame.setLayoutParams(frameParams);
+                            taskFrame.setId(View.generateViewId());
 
-                            container.addView(card);
+                            // Criar o LinearLayout (conteúdo da tarefa)
+                            LinearLayout linearLayout = new LinearLayout(this);
+                            linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                    LinearLayout.LayoutParams.MATCH_PARENT
+                            ));
+                            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                            linearLayout.setBackgroundResource(R.drawable.basetasks);
+                            linearLayout.setGravity(Gravity.CENTER_VERTICAL);
+                            linearLayout.setPadding(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics()),
+                                    0,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics()),
+                                    0
+                            );
+
+                            // Criar ImageView (checkmark)
+                            ImageView finishGoal = new ImageView(this);
+                            LinearLayout.LayoutParams checkParams = new LinearLayout.LayoutParams(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics())
+                            );
+                            finishGoal.setLayoutParams(checkParams);
+                            finishGoal.setId(View.generateViewId());
+                            finishGoal.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (isChecked) {
+                                        finishGoal.setImageResource(R.drawable.checkmarkempty);
+                                    } else {
+                                        finishGoal.setImageResource(R.drawable.checkmarkstilled);
+                                    }
+                                    isChecked = !isChecked;
+                                }
+                            });
+                            finishGoal.setContentDescription("Feito");
+                            finishGoal.setImageResource(R.drawable.checkmarkempty);
+                            linearLayout.addView(finishGoal);
+
+                            // Criar TextView (texto da tarefa)
+                            TextView taskText = new TextView(this);
+                            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
+                                    0,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                    1
+                            );
+                            textParams.setMargins(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics()),
+                                    0, 0, 0
+                            );
+                            taskText.setLayoutParams(textParams);
+                            taskText.setId(View.generateViewId());
+                            taskText.setText(title);
+                            taskText.setTextColor(Color.WHITE);
+                            taskText.setTypeface(ResourcesCompat.getFont(this, R.font.inter_bold), Typeface.BOLD);
+                            linearLayout.addView(taskText);
+
+                            // Criar ImageView (ícone de editar)
+                            ImageView editIcon = new ImageView(this);
+                            LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics())
+                            );
+                            editIcon.setLayoutParams(editParams);
+                            editIcon.setContentDescription("Editar");
+                            editIcon.setImageResource(R.drawable.taskeditor);
+                            linearLayout.addView(editIcon);
+
+                            // Adicionar LinearLayout ao FrameLayout
+                            taskFrame.addView(linearLayout);
+
+                            // Criar ImageView (barra de progresso)
+                            ImageView progressBar = new ImageView(this);
+                            FrameLayout.LayoutParams progressParams = new FrameLayout.LayoutParams(
+                                    FrameLayout.LayoutParams.MATCH_PARENT,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics())
+                            );
+                            progressParams.gravity = Gravity.BOTTOM;
+                            progressParams.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+                            progressBar.setLayoutParams(progressParams);
+                            progressBar.setContentDescription("Indicador de progresso");
+
+                            //TODO: lógica do progresso
+                            if (doc.getLong("intensity") == (long) 1) {
+                                progressBar.setImageResource(R.drawable.greentag);
+                            } else if (doc.getLong("intensity") == (long) 2) {
+                                progressBar.setImageResource(R.drawable.yellowtag);
+                            } else {
+                                progressBar.setImageResource(R.drawable.redtag);
+                            }
+
+                            // Adicionar barra de progresso ao FrameLayout
+                            taskFrame.addView(progressBar);
+
+                            // Adicionar o card completo ao container
+                            container.addView(taskFrame);
                         }
                     }
 
