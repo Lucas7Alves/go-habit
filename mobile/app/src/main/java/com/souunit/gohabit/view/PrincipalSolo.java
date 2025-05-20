@@ -41,7 +41,8 @@ import java.util.Map;
 
 public class PrincipalSolo extends AppCompatActivity {
 
-    Button btn_team, btn_profile;
+    Button btn_profile;
+    ImageButton btn_team;
 
     ImageButton btnAdd;
 
@@ -64,6 +65,7 @@ public class PrincipalSolo extends AppCompatActivity {
 
         btnAdd = findViewById(R.id.btn_add);
         logout = findViewById(R.id.logout);
+        btn_team = findViewById(R.id.btn_team);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,11 +75,18 @@ public class PrincipalSolo extends AppCompatActivity {
             }
         });
 
+        btn_team.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PrincipalSolo.this, FormEntrarEquipe.class);
+                startActivity(intent);
+            }
+        });
+
+
+
         // ===== buttons finish goals =====
         //TODO: Excluir meta
-        //TODO: Editar meta
-        //- tela de editar meta
-        //- lógica de editar meta
         //TODO: após concluir deixar um temponentinho verde, fazer um som "pop" e sair da tela
     }
 

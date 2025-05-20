@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:padding="24dp"
     android:background="@android:color/white"
-    tools:context=".view.FormEntrarEquipe">
+    tools:context=".view.FormEntrarEquipe"
+    android:id="@+id/main">
 
     <!-- Botão voltar -->
     <ImageButton

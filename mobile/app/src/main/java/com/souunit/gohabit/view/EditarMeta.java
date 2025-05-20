@@ -244,8 +244,6 @@ public class EditarMeta extends AppCompatActivity {
                         selectedIntensity = 3;
                         intensityThree.setImageResource(R.drawable.checkmarkstilled);
                     }
-
-
                 }
             } else {
                 Toast.makeText(this, "Erro: " + task.getException(), Toast.LENGTH_SHORT).show();
