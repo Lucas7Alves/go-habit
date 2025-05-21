@@ -63,7 +63,7 @@ export default function ButtonAppBar() {
 
           {user ? (
             <>
-              <Button color="inherit" component={Link} to="/LoggedUser">Meus Perfil</Button>
+              <Button color="inherit" component={Link} to="/LoggedUser">Meu Perfil</Button>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 2 }}>
                 <Avatar alt={userData?.name} src={userData?.avatar} sx={{ width: 32, height: 32 }} />
                 <Typography variant="body1">{userData?.name}</Typography>
