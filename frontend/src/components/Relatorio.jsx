@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
+import useMediaQuery from "./UseMediaQuery"; // ajusta a responsividade da página
 
 export default function Relatorio({ goals }) {
   const [relatorioIA, setRelatorioIA] = useState("");
   const [erro, setErro] = useState("");
+
+  const isMobile = useMediaQuery("(max-width: 767px)");
+  const isTablet = useMediaQuery("(min-width: 768px) and (max-width: 1023px)");
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   useEffect(() => {
     fetch("http://localhost:5000/relatorio")
@@ -32,47 +37,50 @@ export default function Relatorio({ goals }) {
 
   const relatorioTexto = gerarRelatorioTexto(goals);
 
-  return (
-    <div
-      style={{
-        width: "70vw",
-        borderRadius: "10px",
-        margin: "0 auto",
-        paddingBottom: "55px",
-        backgroundImage: "url('../src/img/3380640.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "1rem",
-      }}
-    >
-      <h3
-        style={{
-          marginBottom: "20px",
-          padding: "3px 7px",
-          fontSize: "40px",
-          color: "#f6f6f6",
-          background: "#4427AF",
-          width: "auto",
-          border: "6px solid #ffffff",
-          borderRadius: "10px",
-        }}
-      >
-        Relatório de Metas
-      </h3>
+  const containerStyle = {
+    width: isMobile ? "95vw" : isTablet ? "85vw" : "70vw",
+    margin: "0 auto",
+    borderRadius: "10px",
+    paddingBottom: "55px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "1rem",
+  };
 
-      <div
-        style={{
-          display: "flex",
-          width: "auto",
-          fontSize: "25px",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+  const titleStyle = {
+    marginBottom: "20px",
+    padding: "3px 7px",
+    fontSize: isMobile ? "24px" : isTablet ? "32px" : "40px",
+    color: "#f6f6f6",
+    background: "#4427AF",
+    border: "6px solid #ffffff",
+    borderRadius: "10px",
+  };
+
+  const relatorioStyle = {
+    fontSize: isMobile ? "18px" : "22px",
+    maxWidth: isMobile ? "95%" : "90%",
+    padding: isMobile ? "15px" : "20px 25px",
+  };
+
+  const listItemStyle = {
+    display: "flex",
+    justifyContent: "space-between",
+    backgroundColor: "#00000033",
+    color: "#ffffff",
+    borderRadius: "5px",
+    fontWeight: "bold",
+    marginBottom: "15px",
+    padding: "10px",
+    fontSize: isMobile ? "18px" : "25px",
+  };
+
+  return (
+    <div style={containerStyle}>
+      <h3 style={titleStyle}>Relatório de Metas</h3>
+
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         {relatorioTexto
           .trim()
           .split("\n")
@@ -87,7 +95,6 @@ export default function Relatorio({ goals }) {
                       color: "#f6f6f6",
                       fontWeight: "bold",
                       background: "#4427AF",
-                      width: "auto",
                       borderRadius: "5px",
                       paddingRight: "20px",
                     }
@@ -101,49 +108,44 @@ export default function Relatorio({ goals }) {
             </p>
           ))}
 
-       {/* Relatório da IA */}
-{relatorioIA && (
-  <>
-    <h4
-      style={{
-        color: "#f6f6f6",
-        marginTop: "30px",
-        fontSize: "32px",
-        background: "#4427AF",
-        borderRadius: "10px",
-        padding: "10px 15px",
-        border: "4px solid #ffffff",
-      }}
-    >
-      Análise da Semana 
-    </h4>
+        {relatorioIA && (
+          <>
+            <h4
+              style={{
+                color: "#f6f6f6",
+                marginTop: "30px",
+                fontSize: isMobile ? "22px" : "32px",
+                background: "#4427AF",
+                borderRadius: "10px",
+                padding: "10px 15px",
+                border: "4px solid #ffffff",
+              }}
+            >
+              Análise da Semana
+            </h4>
 
-    <div
-      style={{
-        backgroundColor: "rgba(255, 255, 255, 0.85)",
-        borderRadius: "10px",
-        padding: "20px 25px",
-        marginTop: "15px",
-        maxWidth: "90%",
-        fontSize: "22px",
-        fontWeight: "bold",
-        color: "#4427AF",
-        lineHeight: "1.6",
-      }}
-    >
-      {relatorioIA
-        .split("\n")
-        .map((linha) => linha.trim())
-        .filter((linha) => linha !== "")
-        .map((linha, idx) => (
-          <p key={idx} style={{ marginBottom: "12px" }}>
-            {linha}
-          </p>
-        ))}
-    </div>
-  </>
-)}
-
+            <div
+              style={{
+                ...relatorioStyle,
+                backgroundColor: "rgba(255, 255, 255, 0.85)",
+                borderRadius: "10px",
+                fontWeight: "bold",
+                color: "#4427AF",
+                lineHeight: "1.6",
+              }}
+            >
+              {relatorioIA
+                .split("\n")
+                .map((linha) => linha.trim())
+                .filter((linha) => linha !== "")
+                .map((linha, idx) => (
+                  <p key={idx} style={{ marginBottom: "12px" }}>
+                    {linha}
+                  </p>
+                ))}
+            </div>
+          </>
+        )}
 
         {erro && (
           <p style={{ color: "red", marginTop: "20px" }}>
@@ -154,32 +156,16 @@ export default function Relatorio({ goals }) {
 
       <ul
         style={{
-          textDecoration: "none",
           listStyle: "none",
           paddingLeft: "0",
-          fontSize: "25px",
         }}
       >
         {goals.map((item, idx) => (
-          <li
-            key={idx}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              backgroundColor: "#00000033",
-              color: "#ffffff",
-              borderRadius: "5px",
-              fontWeight: "bold",
-              marginBottom: "15px",
-              padding: "10px",
-            }}
-          >
+          <li key={idx} style={listItemStyle}>
             {item.goal}:
             <strong
-              id="status"
               style={{
-                color:
-                  item.status === "pendente" ? "#FF1751" : "#7DFF37",
+                color: item.status === "pendente" ? "#FF1751" : "#7DFF37",
                 marginLeft: "10px",
               }}
             >
