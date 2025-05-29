@@ -40,3 +40,25 @@ footer h1{
     text-indent: 0;
     margin-bottom: 0;
 }
+
+
+/* TABLET ------------------------------------------------> */
+@media (max-width: 1023px){}
+/* <------------------------------------------------ TABLET */
+
+/* MOBILE ------------------------------------------------> */
+@media (max-width: 767px){
+    footer{
+        flex-direction: column;
+    }
+
+    .LinksNavegacao{
+        flex-direction: row;
+        gap: 25px;
+    }
+
+    .LinksDocumentosLegais{
+        align-items: center;
+    }
+}
+/* <------------------------------------------------ MOBILE */

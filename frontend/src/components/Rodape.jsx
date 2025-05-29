@@ -4,7 +4,7 @@ export default function Rodape(){
     return (
         <footer>
             <div class="LogoGoHabit">
-                <img src="" alt="Logo GoHabit" />
+                <img id='logotipo' src="../src/img/GoHabit_logo_flatten.svg" alt="Logo GoHabit" />
                 <h1>GoHabit</h1>
             </div>
 

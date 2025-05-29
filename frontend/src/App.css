@@ -1,6 +1,7 @@
 @import "styles/banner.css";
 @import "styles/rodape.css";
 @import "styles/termosPolitica.css";
+@import "styles/imags.css";
 
 /* BASE DAS PÁGINAS  ------------------------------------------------> */
 :root {
@@ -107,11 +108,6 @@ h2{
 
 
 /* ELEMENTOS ------------------------------------------------> */
-img{
-  max-width: 150px;
-  border-radius: 3px;
-}
-
 a {
   display: flex;
   gap: 10px;
@@ -153,8 +149,25 @@ button:focus-visible {
   h1{
       color: #996AF9;
   }
+  p{
+    color: black;
+  }
 }
 /* <------------------------------------------------ PARA TEMA CLARO */
+
+/* TABLET ------------------------------------------------> */
+@media (max-width: 1023px){}
+/* <------------------------------------------------ TABLET */
+
+/* MOBILE ------------------------------------------------> */
+@media (max-width: 767px){
+  h2{
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+}
+/* <------------------------------------------------ MOBILE */
+
 
 
 

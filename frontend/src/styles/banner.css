@@ -19,3 +19,18 @@
     padding-left: 2vh;
     text-align: start;
 }
+
+
+/* MOBILE ------------------------------------------------> */
+@media (max-width: 767px){
+    .Banner{
+        height: 35vh;
+    }
+    .Banner img{
+        height: 35vh;
+    }
+    .Banner h1{
+        font-size: 30px;
+    }
+}
+/* <------------------------------------------------ MOBILE */
