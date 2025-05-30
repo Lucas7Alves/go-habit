@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function Rodape(){
     return (
-        <footer>
+        <footer style={{width:"100%"}}>
             <div class="LogoGoHabit">
                 <img id='logotipo' src="../src/img/GoHabit_logo_flatten.svg" alt="Logo GoHabit" />
                 <h1>GoHabit</h1>

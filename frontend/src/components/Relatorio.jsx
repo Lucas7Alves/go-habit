@@ -54,7 +54,7 @@ export default function Relatorio({ goals }) {
     fontSize: isMobile ? "24px" : isTablet ? "32px" : "40px",
     color: "#f6f6f6",
     background: "#4427AF",
-    border: "6px solid #ffffff",
+    border: "2px solid #ffffff",
     borderRadius: "10px",
   };
 
@@ -66,7 +66,7 @@ export default function Relatorio({ goals }) {
 
   const listItemStyle = {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: isMobile ? "space-around" : "space-between",
     backgroundColor: "#00000033",
     color: "#ffffff",
     borderRadius: "5px",
@@ -74,6 +74,8 @@ export default function Relatorio({ goals }) {
     marginBottom: "15px",
     padding: "10px",
     fontSize: isMobile ? "18px" : "25px",
+    width: isMobile ? "300px" : "500px"
+    
   };
 
   return (
@@ -97,16 +99,50 @@ export default function Relatorio({ goals }) {
                       background: "#4427AF",
                       borderRadius: "5px",
                       paddingRight: "20px",
+                      fontSize: "30px",
+                      marginTop:"20px",
+                      border: "2px solid #ffffff",
+                      fontSize: isMobile ? "18px" : "30px"
                     }
                   : {
                       fontWeight: "bold",
-                      color: "#4427AF",
+                      fontSize:"20px"
                     }
               }
             >
               {linha}
             </p>
           ))}
+
+        {/* Lista de metas agora aparece logo após o texto */}
+        <ul
+          style={{
+            display:"flex",
+            flexDirection:"column",
+            alignItems:"center",
+            listStyle: "none",
+            paddingLeft: "0",
+            marginTop: "10px",
+            width: "100%",
+          }}
+        >
+          {goals.map((item, idx) => (
+            <li key={idx} style={listItemStyle}>
+              {item.goal_description}:
+              <strong
+                style={{
+                  color: item.status === "pendente" ? "#FF1751" : "#7DFF37",
+                  marginLeft: "10px",
+                  fontSize: isMobile ? "22px" : ""
+
+
+                }}
+              >
+                {item.status}
+              </strong>
+            </li>
+          ))}
+        </ul>
 
         {relatorioIA && (
           <>
@@ -118,7 +154,7 @@ export default function Relatorio({ goals }) {
                 background: "#4427AF",
                 borderRadius: "10px",
                 padding: "10px 15px",
-                border: "4px solid #ffffff",
+                border: "2px solid #ffffff",
               }}
             >
               Análise da Semana
@@ -127,7 +163,6 @@ export default function Relatorio({ goals }) {
             <div
               style={{
                 ...relatorioStyle,
-                backgroundColor: "rgba(255, 255, 255, 0.85)",
                 borderRadius: "10px",
                 fontWeight: "bold",
                 color: "#4427AF",
@@ -153,27 +188,6 @@ export default function Relatorio({ goals }) {
           </p>
         )}
       </div>
-
-      <ul
-        style={{
-          listStyle: "none",
-          paddingLeft: "0",
-        }}
-      >
-        {goals.map((item, idx) => (
-          <li key={idx} style={listItemStyle}>
-            {item.goal}:
-            <strong
-              style={{
-                color: item.status === "pendente" ? "#FF1751" : "#7DFF37",
-                marginLeft: "10px",
-              }}
-            >
-              {item.status}
-            </strong>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

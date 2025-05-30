@@ -149,11 +149,33 @@ button:focus-visible {
   h1{
       color: #996AF9;
   }
+  h2{
+    color: #4427AF;
+  }
   p{
-    color: black;
+    color: #4427AF;
   }
 }
 /* <------------------------------------------------ PARA TEMA CLARO */
+
+/* PARA TEMA ESCURO ------------------------------------------------> */
+@media (prefers-color-scheme: dark) {
+  :root {
+    background-color: #242424;
+  }
+  h1{
+      color: #f6f6f6;
+  }
+  h2{
+    color: #f6f6f6;
+  }
+  p{
+    color: #f6f6f6;
+  }
+}
+
+/* <------------------------------------------------ PARA TEMA ESCURO */
+
 
 /* TABLET ------------------------------------------------> */
 @media (max-width: 1023px){}
