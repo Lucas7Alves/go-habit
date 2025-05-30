@@ -35,8 +35,8 @@ dados do usuário:
     model = genai.GenerativeModel("gemini-1.5-flash")
 
     config = GenerationConfig(
-        max_output_tokens=500,
-        temperature=0.1,
+        max_output_tokens=600,
+        temperature=0.1
     )
 
     response = model.generate_content(prompt, generation_config=config)

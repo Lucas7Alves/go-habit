@@ -8,7 +8,7 @@ export default function UserProfile({ name, avatar }) {
         alt="Foto de perfil" 
         style={{ width: 150, height: 150, objectFit: "cover", borderRadius: "0%",  }} 
       />
-      <h2 style={{marginBottom:"70px",marginTop:"0px", padding:"0", color: "#4427AF"}}>{name}</h2>
+      <h2 style={{marginBottom:"70px",marginTop:"0px", padding:"0", fontSize:"45px"}}>{name}</h2>
     </div>
   );
 }

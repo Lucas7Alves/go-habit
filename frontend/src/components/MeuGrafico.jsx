@@ -12,7 +12,8 @@ export default function MeuGrafico() {
   }, []);
 
   return (
-    <ResponsiveContainer width="40%" height={300}>
+    <div style={{ width: "50%", aspectRatio: "2 / 1" }}>
+      <ResponsiveContainer width="100%" height="100%">
       <BarChart data={dados}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="nome" />
@@ -26,5 +27,6 @@ export default function MeuGrafico() {
         <Bar dataKey="valor" fill="#6D27AF" />
       </BarChart>
     </ResponsiveContainer>
+    </div>
   );
 }
