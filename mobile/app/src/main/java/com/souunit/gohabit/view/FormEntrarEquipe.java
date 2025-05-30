@@ -1,5 +1,6 @@
 package com.souunit.gohabit.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -7,6 +8,9 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.souunit.gohabit.R;
 
@@ -21,6 +25,12 @@ public class FormEntrarEquipe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_entrarequipe);
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
         // Inicializa os elementos da interface
         etTocaName = findViewById(R.id.et_toca_name);
         btnAccess = findViewById(R.id.btn_access);
@@ -34,17 +44,17 @@ public class FormEntrarEquipe extends AppCompatActivity {
         btnAccess.setOnClickListener(v -> {
             String nomeToca = etTocaName.getText().toString().trim();
             if (nomeToca.isEmpty()) {
-                Toast.makeText(this, "Digite o nome da toca", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FormEntrarEquipe.this, "Digite o nome da toca", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Entrando na toca: " + nomeToca, Toast.LENGTH_SHORT).show();
+                Toast.makeText(FormEntrarEquipe.this, "Entrando na toca: " + nomeToca, Toast.LENGTH_SHORT).show();
                 // TODO: Navegar para outra tela ou lógica de login
             }
         });
 
         // Botão criar toca
         btnCreate.setOnClickListener(v -> {
-            Toast.makeText(this, "Criar nova toca!", Toast.LENGTH_SHORT).show();
-            // TODO: Redirecionar para a tela de criação de toca
+            Intent intent = new Intent(FormEntrarEquipe.this, CriarEquipe.class);
+            startActivity(intent);
         });
     }
 }

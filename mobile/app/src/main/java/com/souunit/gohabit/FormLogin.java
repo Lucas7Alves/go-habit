@@ -2,6 +2,7 @@ package com.souunit.gohabit;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +27,8 @@ public class FormLogin extends AppCompatActivity {
     EditText editTextEmail, editTextPassword;
     FirebaseAuth mAuth;
 
+    //TODO: FAZER FUNCIONAR O CURRENT USER
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,12 @@ public class FormLogin extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        FirebaseAuth.getInstance().addAuthStateListener(firebaseAuth -> {
+            Log.d("AUTH_STATE", "User: " + (firebaseAuth.getCurrentUser() != null ? "LOGGED" : "NULL"));
+        });
+
+        setContentView(R.layout.activity_form_login);
 
         iniciarComponentes();
         mAuth = FirebaseAuth.getInstance();
@@ -83,6 +92,17 @@ public class FormLogin extends AppCompatActivity {
             startActivity(intent);
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            startActivity(new Intent(this, PrincipalSolo.class));
+            finish();
+        }
     }
 
     private void iniciarComponentes() {

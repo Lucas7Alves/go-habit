@@ -32,6 +32,10 @@ export default function LoggedUser() {
       } else {
         console.log("Usuário não autenticado.");
       }
+
+      const response = await fetch(`http://localhost:5000/relatorio`);
+          const data = await response.json();
+          setRelatorioTexto(data.relatorio); // Salva o texto do relatório no estado
     });
 
     // Limpar a subscrição quando o componente for desmontado

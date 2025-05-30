@@ -11,8 +11,7 @@
     <!-- Botão Voltar -->
     <ImageButton
         android:id="@+id/button_back"
-        style="@style/BackButton"
-        />
+        style="@style/BackButton" />
 
     <!-- Título -->
     <TextView

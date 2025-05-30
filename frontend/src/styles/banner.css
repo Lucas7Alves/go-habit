@@ -1,0 +1,36 @@
+.Banner{
+    height: 55vh;
+    position: relative;
+}
+.Banner img{
+    height: 55vh;
+    min-width: 100%;
+    display: block;
+}
+.Banner h1{
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    font-size: 45px;
+    font-weight: bold;
+    font-family: Tagesschrift;
+    border-left: 4px solid rgb(223, 214, 91);
+    padding-left: 2vh;
+    text-align: start;
+}
+
+
+/* MOBILE ------------------------------------------------> */
+@media (max-width: 767px){
+    .Banner{
+        height: 35vh;
+    }
+    .Banner img{
+        height: 35vh;
+    }
+    .Banner h1{
+        font-size: 30px;
+    }
+}
+/* <------------------------------------------------ MOBILE */

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_settings"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_popup_settings"
+    android:padding="10dp"
+    android:layout_marginHorizontal="50dp"
+    android:elevation="8dp"
+    android:gravity="center">
+
+    <!-- Editar perfil -->
+    <TextView
+        android:id="@+id/tv_edit_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Editar perfil"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:paddingVertical="12dp" />
+
+    <!-- Linha separadora -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#4427AF" />
+
+    <!-- Alterar cadastro -->
+    <TextView
+        android:id="@+id/tv_change_registration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Alterar cadastro"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:paddingVertical="12dp" />
+
+</LinearLayout>

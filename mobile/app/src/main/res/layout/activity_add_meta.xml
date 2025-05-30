@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/add_meta"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="13dp"
+    android:layout_gravity="center_horizontal">
+
+
+    <!-- Botão Voltar -->
+    <ImageButton
+        android:id="@+id/button_back"
+        style="@style/BackButton"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+
+        />
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/textViewTitle"
+        style="@style/TitlePage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:text="@string/add_meta_title" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44sp"
+        android:layout_marginTop="50sp"
+        android:layout_marginEnd="44sp"
+        android:gravity="center_horizontal"
+        android:text="@string/add_goal"
+        android:textColor="#000000"
+        android:textSize="18sp"
+
+        />
+
+    <EditText
+        android:id="@+id/editTextMeta"
+        style="@style/EditTextDefault"
+        android:background="@drawable/edit_text_no_underline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44sp"
+        android:layout_marginTop="50sp"
+        android:layout_marginEnd="44sp"
+        android:gravity="center_horizontal"
+        android:text="@string/frequence"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/week_days_chip_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="31dp"
+        app:chipSpacingHorizontal="0dp"
+        app:singleLine="false"
+        app:singleSelection="false"
+        android:layout_gravity="center_horizontal"
+        >
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sun"
+            style="@style/CustomChipStyle"
+            android:tag="sun"
+            android:text="@string/d_day"
+                        />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_mon"
+            style="@style/CustomChipStyle"
+            android:tag="mon"
+            android:text="@string/s_day"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_tue"
+            style="@style/CustomChipStyle"
+            android:tag="tue"
+            android:text="@string/t_day"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_wed"
+            style="@style/CustomChipStyle"
+            android:tag="wed"
+            android:text="@string/q_day"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_thu"
+            style="@style/CustomChipStyle"
+            android:tag="thu"
+            android:text="@string/q_day"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_fri"
+            style="@style/CustomChipStyle"
+            android:tag="fri"
+            android:text="@string/s_day"
+
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sat"
+            style="@style/CustomChipStyle"
+            android:tag="sat"
+            android:text="@string/s_day"
+            />
+    </com.google.android.material.chip.ChipGroup>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/daily"
+            android:layout_marginStart="13dp"
+            android:fontFamily="@font/inter_bold"
+            android:textSize="24dp"/>
+
+        <ImageView
+            android:id="@+id/daily"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="Feito"
+            android:src="@drawable/checkmarkempty"
+            android:layout_marginStart="21dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/intensity_goal"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_marginTop="32dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/intesity_three"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/checkmarkempty"
+            android:layout_marginStart="21dp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:src="@drawable/nivel_tres"
+            android:layout_marginStart="10sp"
+            android:scaleType="fitXY"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="18dp">
+
+        <ImageView
+            android:id="@+id/intesity_two"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/checkmarkempty"
+            android:layout_marginStart="21dp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:src="@drawable/nivel_dois"
+            android:layout_marginStart="10sp"
+            android:scaleType="fitXY"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="18dp">
+
+        <ImageView
+            android:id="@+id/intesity_one"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/checkmarkempty"
+            android:layout_marginStart="21dp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:src="@drawable/nivel_um"
+            android:layout_marginStart="10sp"
+            android:scaleType="fitXY"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonLogin"
+        style="@style/ButtonDefault"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#A875F8"
+        android:padding="12dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/save_button"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
+
+
+</LinearLayout>

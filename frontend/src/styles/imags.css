@@ -1,0 +1,31 @@
+.LogoGoHabit{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#logotipo{
+    width: 40px;
+}
+
+img{
+  max-width: 150px;
+  border-radius: 3px;
+}
+
+
+/* TABLET ------------------------------------------------> */
+@media (max-width: 1023px){
+    img{
+        max-width: 100px;
+    }
+}
+/* <------------------------------------------------ TABLET */
+
+/* MOBILE ------------------------------------------------> */
+@media (max-width: 767px){
+    img{
+        max-width: 80px;
+    }
+}
+/* <------------------------------------------------ MOBILE */

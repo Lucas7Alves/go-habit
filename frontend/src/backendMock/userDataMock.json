@@ -1,0 +1,79 @@
+{
+  "user_id": "12345",
+  "name": "Cheschire",
+  "avatar": "lightBrownBoy",
+  "goals": [
+    {
+      "goal_id": "goal1",
+      "goal_description": "Beber 10L de água",
+      "week_code": "2024-W18",
+      "created_at": "2024-05-01T10:00:00Z",
+      "due_date": "2024-05-07T23:59:59Z",
+      "completed_at": "2024-05-06T15:30:00Z",
+      "status": "concluída"
+    },
+    {
+      "goal_id": "goal2",
+      "goal_description": "Treinar 1h diária",
+      "week_code": "2024-W18",
+      "created_at": "2024-05-01T10:00:00Z",
+      "due_date": "2024-05-07T23:59:59Z",
+      "completed_at": null,
+      "status": "pendente"
+    },
+    {
+      "goal_id": "goal3",
+      "goal_description": "Caminhar 5km",
+      "week_code": "2024-W18",
+      "created_at": "2024-05-01T10:00:00Z",
+      "due_date": "2024-05-07T23:59:59Z",
+      "completed_at": null,
+      "status": "pendente"
+    },
+    {
+      "goal_id": "goal4",
+      "goal_description": "Cortar cafeína de manhã",
+      "week_code": "2024-W18",
+      "created_at": "2024-05-01T10:00:00Z",
+      "due_date": "2024-05-07T23:59:59Z",
+      "completed_at": null,
+      "status": "pendente"
+    },
+    {
+      "goal_id": "goal1",
+      "goal_description": "Beber 10L de água",
+      "week_code": "2024-W17",
+      "created_at": "2024-04-24T10:00:00Z",
+      "due_date": "2024-04-30T23:59:59Z",
+      "completed_at": "2024-04-29T16:00:00Z",
+      "status": "concluída"
+    },
+    {
+      "goal_id": "goal2",
+      "goal_description": "Treinar 1h diária",
+      "week_code": "2024-W17",
+      "created_at": "2024-04-24T10:00:00Z",
+      "due_date": "2024-04-30T23:59:59Z",
+      "completed_at": "2024-04-28T09:30:00Z",
+      "status": "concluída"
+    },
+    {
+      "goal_id": "goal3",
+      "goal_description": "Caminhar 5km",
+      "week_code": "2024-W17",
+      "created_at": "2024-04-24T10:00:00Z",
+      "due_date": "2024-04-30T23:59:59Z",
+      "completed_at": null,
+      "status": "pendente"
+    },
+    {
+      "goal_id": "goal4",
+      "goal_description": "Cortar cafeína de manhã",
+      "week_code": "2024-W17",
+      "created_at": "2024-04-24T10:00:00Z",
+      "due_date": "2024-04-30T23:59:59Z",
+      "completed_at": null,
+      "status": "pendente"
+    }
+  ]
+}

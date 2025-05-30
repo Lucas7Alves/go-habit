@@ -1,0 +1,64 @@
+footer{
+    background-color: #4623a7;
+    display: flex;
+    gap: 5vw;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    margin-top: 40px;
+}
+footer h1{
+    font-size: 20px;
+}
+
+.LogoGoHabit{
+    display: flex;
+    gap: 10px;
+}
+
+.LinksNavegacao{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.LinksNavegacao a{
+    color: white;
+    font-weight: bold;
+}
+
+.LinksDocumentosLegais{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: left;
+}
+.LinksDocumentosLegais a{
+    color: white;
+}
+.LinksDocumentosLegais p{
+    text-indent: 0;
+    margin-bottom: 0;
+}
+
+
+/* TABLET ------------------------------------------------> */
+@media (max-width: 1023px){}
+/* <------------------------------------------------ TABLET */
+
+/* MOBILE ------------------------------------------------> */
+@media (max-width: 767px){
+    footer{
+        flex-direction: column;
+    }
+
+    .LinksNavegacao{
+        flex-direction: row;
+        gap: 25px;
+    }
+
+    .LinksDocumentosLegais{
+        align-items: center;
+    }
+}
+/* <------------------------------------------------ MOBILE */

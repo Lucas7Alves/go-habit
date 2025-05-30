@@ -1,3 +1,8 @@
+@import "styles/banner.css";
+@import "styles/rodape.css";
+@import "styles/termosPolitica.css";
+@import "styles/imags.css";
+
 /* BASE DAS PÁGINAS  ------------------------------------------------> */
 :root {
   line-height: 1.5;
@@ -27,6 +32,7 @@ body{
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 #root {
@@ -37,9 +43,10 @@ body{
   height: 100vh;
 }
 
-#main{
+main{
   padding: 0 10vh;
 }
+
 /* <------------------------------------------------ BASE DAS PÁGINAS */
 
 
@@ -48,6 +55,20 @@ body{
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+.conteudo{
+  background-color: #242424;
+  width: 80vw;
+  height: 100vh;
+  padding: 40px 40px 0px 40px;
+  box-sizing: border-box;
+}
+.conteudo h2{
+  margin-top: 0;
+}
+.conteudo p{
+  margin-bottom: 20px;
 }
 
 section{
@@ -87,11 +108,6 @@ h2{
 
 
 /* ELEMENTOS ------------------------------------------------> */
-img{
-  max-width: 150px;
-  border-radius: 3px;
-}
-
 a {
   display: flex;
   gap: 10px;
@@ -100,7 +116,7 @@ a {
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: rgb(233, 222, 73);
 }
 
 button {
@@ -124,6 +140,7 @@ button:focus-visible {
 /* <------------------------------------------------ ELEMENTOS */
 
 
+
 /* PARA TEMA CLARO ------------------------------------------------> */
 @media (prefers-color-scheme: light) {
   :root {
@@ -132,8 +149,25 @@ button:focus-visible {
   h1{
       color: #996AF9;
   }
+  p{
+    color: black;
+  }
 }
 /* <------------------------------------------------ PARA TEMA CLARO */
+
+/* TABLET ------------------------------------------------> */
+@media (max-width: 1023px){}
+/* <------------------------------------------------ TABLET */
+
+/* MOBILE ------------------------------------------------> */
+@media (max-width: 767px){
+  h2{
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+}
+/* <------------------------------------------------ MOBILE */
+
 
 
 

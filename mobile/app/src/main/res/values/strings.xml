@@ -8,6 +8,8 @@
     <string name="tela_login">Seja bem-vindo!</string>
     <string name="title_cad_perfil">Crie seu avatar!</string>
     <string name="cadastro_title">Cadastra-se</string>
+    <string name="add_meta_title">Adicionar Meta</string>
+    <string name="edit_meta_title">Editar Meta</string>
 
 
     <!-- Buttons -->
@@ -16,6 +18,7 @@
     <string name="finalizar_cadastro">Pronto!</string>
     <string name="cadastro_button">Cadastrar</string>
     <string name="login_button">Acessar</string>
+    <string name="save_button">Salvar</string>
 
 
     <!-- EditText -->
@@ -26,5 +29,14 @@
     <string name="info_name">Informe seu nome</string>
     <string name="no_register">Não possui cadastro?"</string>
 
+    <!-- Texts -->
+    <string name="frequence">Qual a frequência da Meta?</string>
+    <string name="add_goal">Insira o título da meta:</string>
+    <string name="intensity_goal">Qual a intensidade da Meta?</string>
+    <string name="d_day">D</string>
+    <string name="s_day">S</string>
+    <string name="t_day">T</string>
+    <string name="q_day">Q</string>
+    <string name="daily">Diária</string>
 
 </resources>

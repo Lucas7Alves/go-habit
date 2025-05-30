@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@android:color/white">
+
+    <!-- Botão Voltar -->
+    <ImageButton
+        android:id="@+id/btn_voltar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/blackarrow"
+        android:contentDescription="Voltar"
+        android:padding="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/tv_titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deseja alterar seu\ncadastro?"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#A060FF"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/btn_voltar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp" />
+
+    <!-- Campo de Email -->
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:background="#F1F1F1"
+        android:padding="12dp"
+        android:textColor="@android:color/black"
+        android:textColorHint="#888888"
+        android:inputType="textEmailAddress"
+        android:drawableEnd="@drawable/editicon"
+        android:drawablePadding="8dp"
+        android:enabled="false"
+        android:focusable="false"
+        app:layout_constraintTop_toBottomOf="@id/tv_titulo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp" />
+
+    <!-- Campo de Senha -->
+    <EditText
+        android:id="@+id/etSenha"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Senha"
+        android:background="#F1F1F1"
+        android:padding="12dp"
+        android:textColor="@android:color/black"
+        android:textColorHint="#888888"
+        android:inputType="textPassword"
+        android:drawableEnd="@drawable/editicon"
+        android:drawablePadding="8dp"
+        android:enabled="false"
+        android:focusable="false"
+        app:layout_constraintTop_toBottomOf="@id/etEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
