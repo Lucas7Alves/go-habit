@@ -14,6 +14,8 @@ export default function Inicio() {
                 </p>
                 <p>O projeto terá acesso mobile para dispositivos Android, para que o maior número de pessoas possa ter acesso, tendo prazo de conclusão em Junho de 2025. Para manter a qualidade da aplicação as etapas a serem implementadas são Criação do plano de ação, Realização das ações necessárias, e  Manutenção da aplicação, tendo como uma das metas a elaboração de um MVP (Mínimo Produto Viável) para confirmar se o produto final conseguirá atingir os resultados esperados. Relacionado a gastos de produção, espera que os únicos gastos sejam com a licença para publicar na loja Play Store e com a hospedagem do site.
                 </p>
+
+                <img id='bannerapp' src="../src/img/Banner _Instale nosso app_.png" alt="banner instale nosso app"/>
                 
                 <h2>Parceiros</h2>
                 <div id="perfil">
