@@ -2,6 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#FFFFFF">
 
     <LinearLayout
@@ -57,86 +59,221 @@
             android:textColor="#000000"
             android:textColorHint="#C8C6C6" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CCCCCC"
-            android:layout_marginTop="-4dp" />
-
-        <!-- Texto: Metas da toca -->
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="44sp"
+            android:layout_marginTop="50sp"
+            android:layout_marginEnd="44sp"
+            android:gravity="center_horizontal"
+            android:text="@string/add_goal"
+            android:textColor="#000000"
+            android:textSize="18sp"
+
+            />
+
+        <EditText
+            android:id="@+id/editTextMeta"
+            style="@style/EditTextDefault"
+            android:background="@drawable/edit_text_no_underline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="44sp"
+            android:layout_marginTop="50sp"
+            android:layout_marginEnd="44sp"
+            android:gravity="center_horizontal"
+            android:text="@string/frequence"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/week_days_chip_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Insira as metas da toca:"
-            android:layout_marginTop="34dp"
-            android:layout_margin="15dp"
-            android:textColor="#000000"
-            android:textSize="14sp"
+            android:layout_marginVertical="31dp"
             android:layout_gravity="center_horizontal"
-            android:textAlignment="center" />
+            >
 
-        <!-- Botões para lista -->
-        <Button
-            android:id="@+id/btnMeta1"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Selecione uma meta"
-            android:gravity="start|center_vertical"
-            android:drawableEnd="@drawable/setabranca"
-            android:drawablePadding="8dp"
-            android:backgroundTint="#6413C3"
-            android:textColor="#FFFFFF" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_sun"
+                style="@style/CustomChipStyle"
+                android:tag="sun"
+                android:text="@string/d_day"
+                />
 
-        <Button
-            android:id="@+id/btnMeta2"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Selecione uma meta"
-            android:gravity="start|center_vertical"
-            android:drawableEnd="@drawable/setabranca"
-            android:drawablePadding="8dp"
-            android:backgroundTint="#6413C3"
-            android:textColor="#FFFFFF" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_mon"
+                style="@style/CustomChipStyle"
+                android:tag="mon"
+                android:text="@string/s_day"
+                />
 
-        <Button
-            android:id="@+id/btnMeta3"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Selecione uma meta"
-            android:gravity="start|center_vertical"
-            android:drawableEnd="@drawable/setabranca"
-            android:drawablePadding="8dp"
-            android:backgroundTint="#6413C3"
-            android:textColor="#FFFFFF" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_tue"
+                style="@style/CustomChipStyle"
+                android:tag="tue"
+                android:text="@string/t_day"
+                />
 
-        <Button
-            android:id="@+id/btnMeta4"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Selecione uma meta"
-            android:gravity="start|center_vertical"
-            android:drawableEnd="@drawable/setabranca"
-            android:drawablePadding="8dp"
-            android:backgroundTint="#6413C3"
-            android:textColor="#FFFFFF" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_wed"
+                style="@style/CustomChipStyle"
+                android:tag="wed"
+                android:text="@string/q_day"
+                />
 
-        <Button
-            android:id="@+id/btnMeta5"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_thu"
+                style="@style/CustomChipStyle"
+                android:tag="thu"
+                android:text="@string/q_day"
+                />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_fri"
+                style="@style/CustomChipStyle"
+                android:tag="fri"
+                android:text="@string/s_day"
+
+                />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_sat"
+                style="@style/CustomChipStyle"
+                android:tag="sat"
+                android:text="@string/s_day"
+                />
+        </com.google.android.material.chip.ChipGroup>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/daily"
+                android:layout_marginStart="13dp"
+                android:fontFamily="@font/inter_bold"
+                android:textSize="24dp"/>
+
+            <ImageView
+                android:id="@+id/daily"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="Feito"
+                android:src="@drawable/checkmarkempty"
+                android:layout_marginStart="21dp"/>
+        </LinearLayout>
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Selecione uma meta"
-            android:gravity="start|center_vertical"
-            android:drawableEnd="@drawable/setabranca"
-            android:drawablePadding="8dp"
-            android:backgroundTint="#6413C3"
-            android:textColor="#FFFFFF" />
+            android:layout_height="wrap_content"
+            android:text="@string/intensity_goal"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_marginTop="32dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/intesity_three"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/checkmarkempty"
+                android:layout_marginStart="21dp"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:src="@drawable/nivel_tres"
+                android:layout_marginStart="10sp"
+                android:scaleType="fitXY"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="18dp">
+
+            <ImageView
+                android:id="@+id/intesity_two"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/checkmarkempty"
+                android:layout_marginStart="21dp"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:src="@drawable/nivel_dois"
+                android:layout_marginStart="10sp"
+                android:scaleType="fitXY"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="18dp">
+
+            <ImageView
+                android:id="@+id/intesity_one"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/checkmarkempty"
+                android:layout_marginStart="21dp"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:src="@drawable/nivel_um"
+                android:layout_marginStart="10sp"
+                android:scaleType="fitXY"
+                />
+        </LinearLayout>
 
         <!-- Botão: Cadastrar equipe -->
+        <Button
+            android:id="@+id/btnCadastrarMeta"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Adicionar meta"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:backgroundTint="#A25BFF"
+            android:layout_marginTop="24dp"
+            android:elevation="4dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMetas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_meta"/>
+
         <Button
             android:id="@+id/btnCadastrarEquipe"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="Cadastrar equipe!"
+            android:text="Criar equipe"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
             android:backgroundTint="#A25BFF"

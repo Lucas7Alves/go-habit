@@ -20,7 +20,7 @@ public class InfoEquipe extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_equipe);
-
+        /*
         layoutMetas = findViewById(R.id.layout_metas); // Verifique se existe esse ID no XML
 
         // Metas de exemplo
@@ -56,19 +56,20 @@ public class InfoEquipe extends AppCompatActivity {
             });
         }
     }
-
-    private void adicionarMeta(String texto, boolean concluida) {
-        CheckBox checkBox = new CheckBox(this);
-        checkBox.setText(texto);
-        checkBox.setChecked(concluida);
-        checkBox.setEnabled(false);
-        checkBox.setTextColor(getResources().getColor(R.color.white));
-        checkBox.setBackgroundResource(concluida ? R.drawable.bg_meta_check : R.drawable.bg_meta_uncheck);
-        checkBox.setButtonDrawable(R.drawable.checkbox_drawable); // ou android:button="@null"
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+        private void adicionarMeta(String texto, boolean concluida) {
+            CheckBox checkBox = new CheckBox(this);
+            checkBox.setText(texto);
+            checkBox.setChecked(concluida);
+            checkBox.setEnabled(false);
+            checkBox.setTextColor(getResources().getColor(R.color.white));
+            checkBox.setBackgroundResource(concluida ? R.drawable.bg_meta_check : R.drawable.bg_meta_uncheck);
+            checkBox.setButtonDrawable(R.drawable.checkbox_drawable); // ou android:button="@null"
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 16, 0, 16); // espaço maior para melhor visual
-        checkBox.setLayoutParams(params);
+            params.setMargins(0, 16, 0, 16); // espaço maior para melhor visual
+            checkBox.setLayoutParams(params);
         layoutMetas.addView(checkBox);
+    */
+
     }
 }

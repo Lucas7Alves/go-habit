@@ -27,8 +27,6 @@ public class FormLogin extends AppCompatActivity {
     EditText editTextEmail, editTextPassword;
     FirebaseAuth mAuth;
 
-    //TODO: FAZER FUNCIONAR O CURRENT USER
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
