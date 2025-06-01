@@ -42,6 +42,10 @@
         <activity
             android:name=".view.AddMeta"
             android:exported="true" />
+
+        <activity
+            android:name=".view.InfoEquipe"
+            android:exported="true" />
     </application>
 
 </manifest>
