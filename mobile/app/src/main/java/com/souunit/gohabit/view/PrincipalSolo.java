@@ -41,8 +41,8 @@ import java.util.Map;
 
 public class PrincipalSolo extends AppCompatActivity {
 
-    Button btn_profile;
-    ImageButton btn_team;
+    ImageView btnProfile;
+    ImageButton btnTeam;
 
     ImageButton btnAdd;
 
@@ -65,7 +65,8 @@ public class PrincipalSolo extends AppCompatActivity {
 
         btnAdd = findViewById(R.id.btn_add);
         logout = findViewById(R.id.logout);
-        btn_team = findViewById(R.id.btn_team);
+        btnTeam = findViewById(R.id.btn_team);
+        btnProfile = findViewById(R.id.avatar);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,10 +76,18 @@ public class PrincipalSolo extends AppCompatActivity {
             }
         });
 
-        btn_team.setOnClickListener(new View.OnClickListener() {
+        btnTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PrincipalSolo.this, FormEntrarEquipe.class);
+                startActivity(intent);
+            }
+        });
+
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PrincipalSolo.this, Perfil.class);
                 startActivity(intent);
             }
         });

@@ -219,6 +219,16 @@ public class CriarEquipe extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Erro ao criar equipe: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+
+        db.collection("users")
+                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .update("currentTeam", code)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Equipe atualizada com sucesso!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Erro ao atualizar equipe: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     private String gerarCodigoEquipe() {
