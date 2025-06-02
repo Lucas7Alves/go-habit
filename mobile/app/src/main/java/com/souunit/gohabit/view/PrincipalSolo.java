@@ -79,8 +79,29 @@ public class PrincipalSolo extends AppCompatActivity {
         btnTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PrincipalSolo.this, FormEntrarEquipe.class);
-                startActivity(intent);
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user == null) {
+                    Toast.makeText(PrincipalSolo.this, "Usuário não autenticado", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                FirebaseFirestore.getInstance().collection("users")
+                        .document(user.getUid())
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists() && document.contains("currentTeam")) {
+                                    Intent intent = new Intent(PrincipalSolo.this, InfoEquipe.class);
+                                    startActivity(intent);
+                                } else {
+                                    Intent intent = new Intent(PrincipalSolo.this, FormEntrarEquipe.class);
+                                    startActivity(intent);
+                                }
+                            } else {
+                                Toast.makeText(PrincipalSolo.this, "Erro ao verificar equipe", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
 
@@ -158,7 +179,7 @@ public class PrincipalSolo extends AppCompatActivity {
 
         query.addSnapshotListener((value, error) -> {
             if (error != null) {
-                Toast.makeText(this, "Erro ao carregar", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Erro ao carregar" + error.getMessage(), Toast.LENGTH_SHORT).show();
                 return;
             }
 

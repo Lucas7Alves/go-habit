@@ -1,6 +1,9 @@
 package com.souunit.gohabit.view;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,21 +15,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.souunit.gohabit.R;
 import com.souunit.gohabit.model.Meta;
 import com.souunit.gohabit.util.MetasAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class CriarEquipe extends AppCompatActivity {
 
@@ -167,18 +175,26 @@ public class CriarEquipe extends AppCompatActivity {
     private void setupCadastrarEquipeButton() {
         btnCadastrarEquipe.setOnClickListener(v -> {
             String nomeToca = editNomeToca.getText().toString().trim();
-
             if (nomeToca.isEmpty()) {
                 Toast.makeText(this, "Digite um nome para a toca!", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             if (metasList.isEmpty()) {
                 Toast.makeText(this, "Adicione pelo menos uma meta!", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             String code = gerarCodigoEquipe();
-            criarEquipeNoFirestore(nomeToca, code);
+            verificarCodigoUnico(code, new CodigoUnicoCallback() {
+                @Override
+                public void onResult(boolean isUnico) {
+                    if (isUnico) {
+                        criarEquipeNoFirestore(nomeToca, code);
+                    } else {
+                        setupCadastrarEquipeButton(); // Tenta novamente
+                    }
+                }
+            });
         });
     }
 
@@ -189,45 +205,54 @@ public class CriarEquipe extends AppCompatActivity {
             return;
         }
 
-        // Criar objeto da equipe
+        ProgressDialog progress = new ProgressDialog(this);
+        progress.setMessage("Criando equipe...");
+        progress.setCancelable(false);
+        progress.show();
+
         Map<String, Object> equipe = new HashMap<>();
         equipe.put("name", nomeToca);
         equipe.put("owner", user.getUid());
-        equipe.put("members", Arrays.asList(user.getUid()));
         equipe.put("createdAt", FieldValue.serverTimestamp());
         equipe.put("codigo", code);
 
-        // Converter lista de metas para formato do Firestore
-        List<Map<String, Object>> metasFirestore = new ArrayList<>();
-        for (Meta meta : metasList) {
-            Map<String, Object> metaMap = new HashMap<>();
-            metaMap.put("title", meta.getTitulo());
-            metaMap.put("days", meta.getDias());
-            metaMap.put("intensity", meta.getIntensidade());
-
-            metasFirestore.add(metaMap);
-        }
-        equipe.put("metas", metasFirestore);
-
-        // Salvar no Firestore
         db.collection("teams")
                 .add(equipe)
                 .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(this, "Equipe criada com sucesso!", Toast.LENGTH_SHORT).show();
-                    finish();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Erro ao criar equipe: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+                    String teamId = documentReference.getId();
 
-        db.collection("users")
-                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .update("currentTeam", code)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Equipe atualizada com sucesso!", Toast.LENGTH_SHORT).show();
+                    adicionarMembro(teamId, user.getUid())
+                            .continueWithTask(task -> {
+                                if (task.isSuccessful()) {
+                                    return atualizarTimeDoUsuario(code);
+                                } else {
+                                    throw task.getException();
+                                }
+                            })
+                            .continueWithTask(task -> {
+                                if (task.isSuccessful() && !metasList.isEmpty()) {
+                                    return adicionarMetas(teamId);
+                                } else if (!task.isSuccessful()) {
+                                    throw task.getException();
+                                }
+                                return Tasks.forResult(null);
+                            })
+                            .addOnCompleteListener(task -> {
+                                progress.dismiss();
+
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(this, "Equipe criada com sucesso!", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    Toast.makeText(this, "Erro: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.e("nina123", "Erro completo", task.getException());
+                                }
+                            });
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Erro ao atualizar equipe: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    progress.dismiss();
+                    Toast.makeText(this, "Erro ao criar equipe: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("nina123", "Erro ao criar equipe", e);
                 });
     }
 
@@ -245,5 +270,60 @@ public class CriarEquipe extends AppCompatActivity {
 
     private List<String> getWeekDaysList() {
         return Arrays.asList("sun", "mon", "tue", "wed", "thu", "fri", "sat");
+    }
+
+    private Task<Void> adicionarMembro(String teamId, String userId) {
+        Map<String, Object> member = new HashMap<>();
+        member.put("userId", userId);
+        member.put("joinedAt", FieldValue.serverTimestamp());
+        // Adicione outros campos do membro conforme necessário
+
+        return db.collection("teams").document(teamId)
+                .collection("members").document(userId)
+                .set(member);
+    }
+
+    private Task<Void> atualizarTimeDoUsuario(String teamCode) { // Agora recebe o código, não o ID
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            return Tasks.forException(new NullPointerException("Usuário não autenticado"));
+        }
+
+        return db.collection("users").document(user.getUid())
+                .update("currentTeam", teamCode); // Salva o código, não o ID
+    }
+
+    private Task<Void> adicionarMetas(String teamId) {
+        List<Map<String, Object>> metasFirestore = new ArrayList<>();
+
+        for (Meta meta : metasList) {
+            Map<String, Object> metaMap = new HashMap<>();
+            metaMap.put("title", meta.getTitulo());
+            metaMap.put("days", meta.getDias());
+            metaMap.put("intensity", meta.getIntensidade());
+            metaMap.put("createdAt", new Date().getTime());
+
+            metasFirestore.add(metaMap);
+        }
+
+        return db.collection("teams").document(teamId)
+                .update("metas", metasFirestore);
+    }
+
+    private interface CodigoUnicoCallback {
+        void onResult(boolean isUnico);
+    }
+
+    private void verificarCodigoUnico(String code, CodigoUnicoCallback callback) {
+        db.collection("teams")
+                .whereEqualTo("codigo", code)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        callback.onResult(task.getResult().isEmpty());
+                    } else {
+                        callback.onResult(false);
+                    }
+                });
     }
 }

@@ -1,75 +1,146 @@
 package com.souunit.gohabit.view;
 
 import android.os.Bundle;
-import android.widget.CheckBox;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.view.ViewGroup.LayoutParams;
-import android.content.Intent;
+import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.souunit.gohabit.R;
+import com.souunit.gohabit.adapter.TeamMembersAdapter;
+import com.souunit.gohabit.model.TeamMember;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InfoEquipe extends AppCompatActivity {
 
-    private LinearLayout layoutMetas;
+    private RecyclerView membersRecyclerView;
+    private TeamMembersAdapter adapter;
+    private TextView teamCodeTextView, teamNameTextView;
+    private FirebaseFirestore db;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_equipe);
-        /*
-        layoutMetas = findViewById(R.id.layout_metas); // Verifique se existe esse ID no XML
 
-        // Metas de exemplo
-        if (layoutMetas != null) {
-            adicionarMeta("Meditar por 20 min", true);
-            adicionarMeta("Caminhar por 2km", true);
-            adicionarMeta("Dormir 8 horas", false);
-            adicionarMeta("Tomar 10 minutos de sol", false);
-        }
+        // Inicializa Firebase
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        // Navegação inferior - adaptado para ImageButtons personalizados
-        ImageButton btnAdd = findViewById(R.id.btn_add);
-        ImageButton btnTeam = findViewById(R.id.btn_team);
-        ImageButton btnProfile = findViewById(R.id.btn_profile);
+        // Inicializa views
+        teamCodeTextView = findViewById(R.id.team_code);
+        teamNameTextView = findViewById(R.id.team_name);
+        membersRecyclerView = findViewById(R.id.members_list);
 
-        if (btnAdd != null) {
-            btnAdd.setOnClickListener(v -> {
-                // Abrir tela de nova meta
-                // startActivity(new Intent(this, NovaMetaActivity.class));
-            });
-        }
+        // Configura RecyclerView
+        membersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new TeamMembersAdapter(new ArrayList<>());
+        membersRecyclerView.setAdapter(adapter);
 
-        if (btnTeam != null) {
-            btnTeam.setOnClickListener(v -> {
-                // Já está na InfoEquipe, talvez ignorar ou dar feedback
-            });
-        }
-
-        if (btnProfile != null) {
-            btnProfile.setOnClickListener(v -> {
-                // Ir para tela de perfil
-                // startActivity(new Intent(this, PerfilActivity.class));
-            });
+        // Carrega dados
+        if (currentUser != null) {
+            loadTeamData();
+        } else {
+            showAuthError();
         }
     }
-        private void adicionarMeta(String texto, boolean concluida) {
-            CheckBox checkBox = new CheckBox(this);
-            checkBox.setText(texto);
-            checkBox.setChecked(concluida);
-            checkBox.setEnabled(false);
-            checkBox.setTextColor(getResources().getColor(R.color.white));
-            checkBox.setBackgroundResource(concluida ? R.drawable.bg_meta_check : R.drawable.bg_meta_uncheck);
-            checkBox.setButtonDrawable(R.drawable.checkbox_drawable); // ou android:button="@null"
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, 16, 0, 16); // espaço maior para melhor visual
-            checkBox.setLayoutParams(params);
-        layoutMetas.addView(checkBox);
-    */
 
+    private void loadTeamData() {
+        db.collection("users").document(currentUser.getUid())
+                .get()
+                .addOnSuccessListener(userDoc -> {
+                    if (userDoc.exists() && userDoc.contains("currentTeam")) {
+                        String teamCode = userDoc.getString("currentTeam");
+                        teamCodeTextView.setText(teamCode);
+                        loadTeamInfoAndMembers(teamCode);
+                    } else {
+                        showTeamNotFound();
+                    }
+                })
+                .addOnFailureListener(e -> showLoadError());
+    }
+
+    private void loadTeamInfoAndMembers(String teamCode) {
+        // Primeiro encontra o ID da equipe pelo código
+        db.collection("teams")
+                .whereEqualTo("codigo", teamCode)
+                .limit(1)
+                .get()
+                .addOnSuccessListener(teamQuery -> {
+                    if (!teamQuery.isEmpty()) {
+                        DocumentSnapshot teamDoc = teamQuery.getDocuments().get(0);
+                        String teamId = teamDoc.getId();
+
+                        // Carrega nome da equipe
+                        teamNameTextView.setText(teamDoc.getString("name"));
+
+                        // Carrega membros da subcoleção
+                        loadTeamMembers(teamId);
+                    } else {
+                        showTeamNotFound();
+                    }
+                })
+                .addOnFailureListener(e -> showLoadError());
+    }
+
+    private void loadTeamMembers(String teamId) {
+        // Busca na subcoleção members ordenando por pontos
+        db.collection("teams").document(teamId)
+                .collection("members")
+                .orderBy("pontos", Query.Direction.DESCENDING)
+                .limit(3)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    List<TeamMember> members = new ArrayList<>();
+                    int position = 1;
+
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                        members.add(new TeamMember(
+                                doc.getString("nome"),
+                                getPositionString(position),
+                                doc.getLong("pontos") != null ? doc.getLong("pontos").intValue() : 0
+                        ));
+                        position++;
+                    }
+
+                    adapter.updateMembers(members);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("nina123", "loadTeamMembers: ", e);
+                    Toast.makeText(this, "Erro ao carregar membros", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private String getPositionString(int position) {
+        switch (position) {
+            case 1: return "1º";
+            case 2: return "2º";
+            case 3: return "3º";
+            default: return position + "º";
+        }
+    }
+
+    private void showAuthError() {
+        Toast.makeText(this, "Autenticação necessária", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void showLoadError() {
+        Toast.makeText(this, "Erro ao carregar dados", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showTeamNotFound() {
+        Toast.makeText(this, "Equipe não encontrada", Toast.LENGTH_SHORT).show();
     }
 }

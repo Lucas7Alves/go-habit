@@ -1,7 +1,9 @@
 package com.souunit.gohabit.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -22,8 +24,12 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.souunit.gohabit.R;
+import com.souunit.gohabit.model.Meta;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FormEntrarEquipe extends AppCompatActivity {
 
@@ -75,63 +81,130 @@ public class FormEntrarEquipe extends AppCompatActivity {
             return;
         }
 
-        // Verifica se o código existe no Firestore
+        // Mostrar indicador de carregamento
+        ProgressDialog progress = new ProgressDialog(this);
+        progress.setMessage("Entrando na equipe...");
+        progress.setCancelable(false);
+        progress.show();
+
         db.collection("teams")
                 .whereEqualTo("codigo", codigoToca)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (task.getResult().isEmpty()) {
-                                Toast.makeText(FormEntrarEquipe.this,
-                                        "Código inválido ou toca não encontrada",
-                                        Toast.LENGTH_SHORT).show();
-                            } else {
-                                // Código válido, adicionar usuário à equipe
-                                DocumentSnapshot equipe = task.getResult().getDocuments().get(0);
-                                String teamsId = equipe.getId();
-
-                                // Verifica se o usuário já é membro
-                                List<String> membros = (List<String>) equipe.get("membros");
-                                if (membros != null && membros.contains(user.getUid())) {
-                                    Toast.makeText(FormEntrarEquipe.this,
-                                            "Você já é membro desta toca",
-                                            Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-
-                                // Adiciona o usuário à lista de membros
-                                db.collection("teams")
-                                        .document(teamsId)
-                                        .update("members", FieldValue.arrayUnion(user.getUid()))
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(FormEntrarEquipe.this,
-                                                            "Você entrou na toca com sucesso!",
-                                                            Toast.LENGTH_SHORT).show();
-
-                                                    // Redirecionar para a tela principal da equipe
-                                                    Intent intent = new Intent(FormEntrarEquipe.this, InfoEquipe.class);
-                                                    intent.putExtra("TEAMS_ID", teamsId);
-                                                    startActivity(intent);
-                                                    finish();
-                                                } else {
-                                                    Toast.makeText(FormEntrarEquipe.this,
-                                                            "Erro ao entrar na toca: " + task.getException().getMessage(),
-                                                            Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-                            }
-                        } else {
-                            Toast.makeText(FormEntrarEquipe.this,
-                                    "Erro ao verificar código: " + task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                .addOnSuccessListener(querySnapshot -> {
+                    if (querySnapshot.isEmpty()) {
+                        progress.dismiss();
+                        Toast.makeText(this, "Toca não encontrada!", Toast.LENGTH_SHORT).show();
+                        return;
                     }
+
+                    DocumentSnapshot teamDoc = querySnapshot.getDocuments().get(0);
+                    String teamId = teamDoc.getId();
+                    String teamCode = teamDoc.getString("codigo"); // Obtém o código da equipe
+
+                    // Verifica se já é membro
+                    db.collection("teams").document(teamId)
+                            .collection("members").document(user.getUid())
+                            .get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    if (!task.getResult().exists()) {
+                                        // Adiciona como novo membro
+                                        Map<String, Object> member = new HashMap<>();
+                                        member.put("userId", user.getUid());
+                                        member.put("nome", user.getDisplayName());
+                                        member.put("email", user.getEmail());
+                                        member.put("pontos", 0);
+                                        member.put("joinedAt", FieldValue.serverTimestamp());
+
+                                        db.collection("teams").document(teamId)
+                                                .collection("members").document(user.getUid())
+                                                .set(member)
+                                                .addOnSuccessListener(aVoid -> {
+                                                    // Atualiza com o CÓDIGO (não com o ID)
+                                                    db.collection("users").document(user.getUid())
+                                                            .update("currentTeam", teamCode) // Aqui está a mudança principal
+                                                            .addOnSuccessListener(aVoid2 -> {
+                                                                progress.dismiss();
+                                                                Toast.makeText(this, "Entrou na toca com sucesso!", Toast.LENGTH_SHORT).show();
+                                                                Intent intent = new Intent(this, PrincipalSolo.class);
+                                                                // Envia ambos ID e código se necessário
+                                                                intent.putExtra("TEAM_ID", teamId);
+                                                                intent.putExtra("TEAM_CODE", teamCode);
+                                                                startActivity(intent);
+                                                                finish();
+                                                            })
+                                                            .addOnFailureListener(e -> {
+                                                                progress.dismiss();
+                                                                Toast.makeText(this, "Erro ao atualizar usuário", Toast.LENGTH_SHORT).show();
+                                                                Log.e("Equipe", "Erro update user", e);
+                                                            });
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    progress.dismiss();
+                                                    Toast.makeText(this, "Erro ao entrar na equipe", Toast.LENGTH_SHORT).show();
+                                                    Log.e("Equipe", "Erro add member", e);
+                                                });
+                                    } else {
+                                        progress.dismiss();
+                                        Toast.makeText(this, "Você já está nesta toca!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    progress.dismiss();
+                    Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("Equipe", "Erro find team", e);
                 });
+    }
+    private void adicionarMembro(String teamId, String userId) {
+        db.collection("users").document(userId).get()
+                .addOnSuccessListener(userDoc -> {
+                    if (userDoc.exists()) {
+                        Map<String, Object> member = new HashMap<>();
+                        member.put("nome", userDoc.getString("nome"));
+                        member.put("pontos", userDoc.get("pontos") != null ? userDoc.get("pontos") : 0);
+                        member.put("email", userDoc.getString("email"));
+                        member.put("avatarIndex", userDoc.get("avatarIndex") != null ? userDoc.get("avatarIndex") : 0);
+                        member.put("userId", userId);
+                        member.put("joinedAt", FieldValue.serverTimestamp());
+
+                        db.collection("teams").document(teamId)
+                                .collection("members").document(userId)
+                                .set(member)
+                                .addOnSuccessListener(aVoid -> {
+                                    Log.d("Equipe", "Membro adicionado com sucesso");
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e("Equipe", "Erro ao adicionar membro", e);
+                                });
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Equipe", "Erro ao obter dados do usuário", e);
+                });
+    }
+
+    private void atualizarTimeDoUsuario(String teamId) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
+        db.collection("users").document(user.getUid())
+                .update("currentTeam", teamId)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("Equipe", "Time do usuário atualizado com sucesso");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Equipe", "Erro ao atualizar time do usuário", e);
+                });
+    }
+
+    public void sincronizarPontos(String userId, String teamId, int novosPontos) {
+        db.collection("teams").document(teamId)
+                .collection("members").document(userId)
+                .update("pontos", novosPontos);
+
+        db.collection("users").document(userId)
+                .update("pontos", novosPontos);
     }
 }
