@@ -1,37 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="16dp"
-    android:background="@drawable/imagem">
+    android:paddingVertical="12dp"
+    android:paddingHorizontal="16dp"
+    android:background="@color/white"
+    android:minHeight="56dp">
 
-    <!-- Posição no ranking -->
+    <!-- Position in ranking -->
     <TextView
         android:id="@+id/member_position"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:gravity="center"
         android:textColor="#A25BFF"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:background="@drawable/circle_background"
+        android:layout_marginEnd="12dp"/>
 
-    <!-- Nome do membro -->
+    <!-- Member name -->
     <TextView
         android:id="@+id/member_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginStart="8dp"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"/>
+        android:textColor="#212121"
+        android:textSize="14sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:gravity="center_vertical"/>
 
-    <!-- Pontuação individual -->
+    <!-- Points -->
     <TextView
         android:id="@+id/member_points"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:textColor="#ffde59"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:drawablePadding="4dp"
+        android:drawableStart="@drawable/ic_star"
+        android:paddingStart="8dp"/>
 </LinearLayout>

@@ -72,7 +72,6 @@ public class InfoEquipe extends AppCompatActivity {
     }
 
     private void loadTeamInfoAndMembers(String teamCode) {
-        // Primeiro encontra o ID da equipe pelo código
         db.collection("teams")
                 .whereEqualTo("codigo", teamCode)
                 .limit(1)
