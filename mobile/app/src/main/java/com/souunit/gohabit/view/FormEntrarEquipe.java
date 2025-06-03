@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -81,7 +82,6 @@ public class FormEntrarEquipe extends AppCompatActivity {
             return;
         }
 
-        // Mostrar indicador de carregamento
         ProgressDialog progress = new ProgressDialog(this);
         progress.setMessage("Entrando na equipe...");
         progress.setCancelable(false);
@@ -99,50 +99,33 @@ public class FormEntrarEquipe extends AppCompatActivity {
 
                     DocumentSnapshot teamDoc = querySnapshot.getDocuments().get(0);
                     String teamId = teamDoc.getId();
-                    String teamCode = teamDoc.getString("codigo"); // Obtém o código da equipe
+                    String teamCode = teamDoc.getString("codigo");
 
-                    // Verifica se já é membro
                     db.collection("teams").document(teamId)
                             .collection("members").document(user.getUid())
                             .get()
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     if (!task.getResult().exists()) {
-                                        // Adiciona como novo membro
-                                        Map<String, Object> member = new HashMap<>();
-                                        member.put("userId", user.getUid());
-                                        member.put("nome", user.getDisplayName());
-                                        member.put("email", user.getEmail());
-                                        member.put("pontos", 0);
-                                        member.put("joinedAt", FieldValue.serverTimestamp());
+                                        // Adiciona o membro
+                                        adicionarMembro(teamId, user.getUid());
 
-                                        db.collection("teams").document(teamId)
-                                                .collection("members").document(user.getUid())
-                                                .set(member)
-                                                .addOnSuccessListener(aVoid -> {
-                                                    // Atualiza com o CÓDIGO (não com o ID)
-                                                    db.collection("users").document(user.getUid())
-                                                            .update("currentTeam", teamCode) // Aqui está a mudança principal
-                                                            .addOnSuccessListener(aVoid2 -> {
-                                                                progress.dismiss();
-                                                                Toast.makeText(this, "Entrou na toca com sucesso!", Toast.LENGTH_SHORT).show();
-                                                                Intent intent = new Intent(this, PrincipalSolo.class);
-                                                                // Envia ambos ID e código se necessário
-                                                                intent.putExtra("TEAM_ID", teamId);
-                                                                intent.putExtra("TEAM_CODE", teamCode);
-                                                                startActivity(intent);
-                                                                finish();
-                                                            })
-                                                            .addOnFailureListener(e -> {
-                                                                progress.dismiss();
-                                                                Toast.makeText(this, "Erro ao atualizar usuário", Toast.LENGTH_SHORT).show();
-                                                                Log.e("Equipe", "Erro update user", e);
-                                                            });
+                                        // Atualiza o time atual do usuário
+                                        db.collection("users").document(user.getUid())
+                                                .update("currentTeam", teamCode)
+                                                .addOnSuccessListener(aVoid2 -> {
+                                                    progress.dismiss();
+                                                    Toast.makeText(this, "Entrou na toca com sucesso!", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(this, PrincipalSolo.class);
+                                                    intent.putExtra("TEAM_ID", teamId);
+                                                    intent.putExtra("TEAM_CODE", teamCode);
+                                                    startActivity(intent);
+                                                    finish();
                                                 })
                                                 .addOnFailureListener(e -> {
                                                     progress.dismiss();
-                                                    Toast.makeText(this, "Erro ao entrar na equipe", Toast.LENGTH_SHORT).show();
-                                                    Log.e("Equipe", "Erro add member", e);
+                                                    Toast.makeText(this, "Erro ao atualizar usuário", Toast.LENGTH_SHORT).show();
+                                                    Log.e("Equipe", "Erro update user", e);
                                                 });
                                     } else {
                                         progress.dismiss();
@@ -164,7 +147,6 @@ public class FormEntrarEquipe extends AppCompatActivity {
                         Map<String, Object> member = new HashMap<>();
                         member.put("nome", userDoc.getString("nome"));
                         member.put("pontos", userDoc.get("pontos") != null ? userDoc.get("pontos") : 0);
-                        member.put("email", userDoc.getString("email"));
                         member.put("avatarIndex", userDoc.get("avatarIndex") != null ? userDoc.get("avatarIndex") : 0);
                         member.put("userId", userId);
                         member.put("joinedAt", FieldValue.serverTimestamp());

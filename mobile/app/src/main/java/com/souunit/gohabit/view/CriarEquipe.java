@@ -21,6 +21,8 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -191,7 +193,7 @@ public class CriarEquipe extends AppCompatActivity {
                     if (isUnico) {
                         criarEquipeNoFirestore(nomeToca, code);
                     } else {
-                        setupCadastrarEquipeButton(); // Tenta novamente
+                        setupCadastrarEquipeButton();
                     }
                 }
             });
@@ -273,24 +275,39 @@ public class CriarEquipe extends AppCompatActivity {
     }
 
     private Task<Void> adicionarMembro(String teamId, String userId) {
-        Map<String, Object> member = new HashMap<>();
-        member.put("userId", userId);
-        member.put("joinedAt", FieldValue.serverTimestamp());
-        // Adicione outros campos do membro conforme necessário
+        DocumentReference userRef = db.collection("users").document(userId);
 
-        return db.collection("teams").document(teamId)
-                .collection("members").document(userId)
-                .set(member);
+        return userRef.get().continueWithTask(task -> {
+            if (!task.isSuccessful()) {
+                throw task.getException();
+            }
+
+            DocumentSnapshot userDoc = task.getResult();
+            if (!userDoc.exists()) {
+                throw new Exception("Usuário não encontrado");
+            }
+
+            Map<String, Object> member = new HashMap<>();
+            member.put("userId", userId);
+            member.put("joinedAt", FieldValue.serverTimestamp());
+            member.put("username", userDoc.getString("nome"));
+            member.put("pontos", 0);
+            member.put("avatarIndex", userDoc.getLong("avatarIndex"));
+
+            return db.collection("teams").document(teamId)
+                    .collection("members").document(userId)
+                    .set(member);
+        });
     }
 
-    private Task<Void> atualizarTimeDoUsuario(String teamCode) { // Agora recebe o código, não o ID
+    private Task<Void> atualizarTimeDoUsuario(String teamCode) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             return Tasks.forException(new NullPointerException("Usuário não autenticado"));
         }
 
         return db.collection("users").document(user.getUid())
-                .update("currentTeam", teamCode); // Salva o código, não o ID
+                .update("currentTeam", teamCode);
     }
 
     private Task<Void> adicionarMetas(String teamId) {
