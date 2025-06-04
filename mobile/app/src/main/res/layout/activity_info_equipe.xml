@@ -7,7 +7,7 @@
     android:background="@drawable/imagem"
     android:orientation="vertical">
 
-    <!-- Header (mantido conforme solicitado) -->
+    <!-- Header -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,11 +54,9 @@
             android:layout_alignParentEnd="true"
             android:background="@android:color/transparent"
             android:contentDescription="Info"
-            android:src="@drawable/info_team"
-            />
+            android:src="@drawable/info_team"/>
     </RelativeLayout>
 
-    <!-- Nome da Equipe -->
     <TextView
         android:id="@+id/team_name"
         android:layout_width="match_parent"
@@ -70,17 +68,49 @@
         android:gravity="center"
         android:padding="8dp"/>
 
-    <!-- Lista de membros com pontuação individual -->
+    <TextView
+        android:id="@+id/members_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Membros"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/members_list"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:paddingHorizontal="16dp"
+        tools:listitem="@layout/item_member"/>
+
+    <TextView
+        android:id="@+id/goals_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Metas de hoje"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingHorizontal="16dp"
-        android:clipToPadding="false"
-        tools:listitem="@layout/item_member" />
+        android:paddingHorizontal="16dp">
 
-    <!-- Barra de navegação inferior -->
+        <LinearLayout
+            android:id="@+id/goals_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+    </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"
@@ -96,7 +126,7 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:contentDescription="Perfil"
-            android:src="@drawable/profilesolo" />
+            android:src="@drawable/profilesolo"/>
 
         <ImageButton
             android:id="@+id/btn_add"
@@ -105,7 +135,7 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:contentDescription="Adicionar"
-            android:src="@drawable/add" />
+            android:src="@drawable/add"/>
 
         <ImageButton
             android:id="@+id/btn_team"
@@ -114,6 +144,6 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:contentDescription="Equipe"
-            android:src="@drawable/jointeam" />
+            android:src="@drawable/jointeam"/>
     </LinearLayout>
 </LinearLayout>

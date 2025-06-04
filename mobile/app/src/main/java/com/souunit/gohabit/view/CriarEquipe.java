@@ -290,7 +290,7 @@ public class CriarEquipe extends AppCompatActivity {
             Map<String, Object> member = new HashMap<>();
             member.put("userId", userId);
             member.put("joinedAt", FieldValue.serverTimestamp());
-            member.put("username", userDoc.getString("nome"));
+            member.put("nome", userDoc.getString("nome"));
             member.put("pontos", 0);
             member.put("avatarIndex", userDoc.getLong("avatarIndex"));
 

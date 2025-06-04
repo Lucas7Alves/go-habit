@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="goal_card_height">94dp</dimen>
+    <dimen name="goal_card_margin">20dp</dimen>
+    <dimen name="goal_card_padding">16dp</dimen>
+    <dimen name="goal_check_size">30dp</dimen>
+    <dimen name="goal_text_margin">12dp</dimen>
+    <dimen name="goal_progress_height">10dp</dimen>
+</resources>
