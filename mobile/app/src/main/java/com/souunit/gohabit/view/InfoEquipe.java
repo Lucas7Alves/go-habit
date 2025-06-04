@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -239,9 +240,7 @@ public class InfoEquipe extends AppCompatActivity {
 
     private void completeGoal(Map<String, Object> meta, ImageView finishGoal) {
         List<String> completedBy = (List<String>) meta.get("completedBy");
-        if (completedBy != null && completedBy.contains(currentUser.getUid())) {
-            return;
-        }
+        boolean isCompleted = completedBy != null && completedBy.contains(currentUser.getUid());
 
         int pointsToAdd;
         Long intensity = (Long) meta.get("intensity");
@@ -251,30 +250,34 @@ public class InfoEquipe extends AppCompatActivity {
             pointsToAdd = 0;
         }
 
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("metas", FieldValue.arrayRemove(meta));
+        Map<String, Object> updatedMeta = new HashMap<>(meta);
 
-        meta.put("completedBy", completedBy != null ?
-                FieldValue.arrayUnion(currentUser.getUid()) :
-                List.of(currentUser.getUid()));
-        meta.put("lastCompleted", new Date());
+        List<String> newCompletedBy = new ArrayList<>();
+        if (completedBy != null) {
+            newCompletedBy.addAll(completedBy);
+        }
+        newCompletedBy.add(currentUser.getUid());
+        updatedMeta.put("completedBy", newCompletedBy);
+        updatedMeta.put("lastCompleted", new Date());
 
-        updates.put("metas", FieldValue.arrayUnion(meta));
+        db.runTransaction(transaction -> {
 
-        db.collection("teams").document(teamId)
-                .update(updates)
-                .addOnSuccessListener(aVoid -> {
-                    finishGoal.setImageResource(R.drawable.checkmarkstilled);
+            DocumentReference teamRef = db.collection("teams").document(teamId);
 
-                    db.collection("teams").document(teamId)
-                            .collection("members")
-                            .document(currentUser.getUid())
-                            .update("pontos", FieldValue.increment(pointsToAdd))
-                            .addOnSuccessListener(aVoid1 -> {
-                                Toast.makeText(this, "Meta concluída! +" + pointsToAdd + " pontos", Toast.LENGTH_SHORT).show();
-                                loadTeamMembers();
-                            });
-                });
+            transaction.update(teamRef, "metas", FieldValue.arrayRemove(meta));
+            transaction.update(teamRef, "metas", FieldValue.arrayUnion(updatedMeta));
+
+            DocumentReference memberRef = teamRef.collection("members").document(currentUser.getUid());
+            transaction.update(memberRef, "pontos", FieldValue.increment(pointsToAdd));
+
+            return null;
+        }).addOnSuccessListener(aVoid -> {
+            finishGoal.setImageResource(R.drawable.checkmarkstilled);
+            Toast.makeText(this, "Meta concluída! +" + pointsToAdd + " pontos", Toast.LENGTH_SHORT).show();
+            loadTeamMembers();
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, "Erro ao completar meta", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void showEmptyGoalsMessage() {
