@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:paddingVertical="12dp"
     android:paddingHorizontal="16dp"
-    android:background="@color/white"
+    android:background="@color/selected_chip_color"
     android:minHeight="56dp">
 
     <!-- Position in ranking -->

@@ -1,5 +1,6 @@
 package com.souunit.gohabit.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.souunit.gohabit.R;
@@ -28,6 +30,7 @@ import com.souunit.gohabit.model.TeamMember;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -40,6 +43,7 @@ public class InfoEquipe extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseUser currentUser;
     private LinearLayout goalsContainer;
+    private String teamId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +64,6 @@ public class InfoEquipe extends AppCompatActivity {
 
         if (currentUser != null) {
             loadTeamData();
-            loadUserGoals();
         } else {
             showAuthError();
         }
@@ -89,9 +92,10 @@ public class InfoEquipe extends AppCompatActivity {
                 .addOnSuccessListener(teamQuery -> {
                     if (!teamQuery.isEmpty()) {
                         DocumentSnapshot teamDoc = teamQuery.getDocuments().get(0);
-                        String teamId = teamDoc.getId();
+                        teamId = teamDoc.getId();
                         teamNameTextView.setText(teamDoc.getString("name"));
-                        loadTeamMembers(teamId);
+                        loadTeamMembers();
+                        loadTeamGoals(teamDoc);
                     } else {
                         showTeamNotFound();
                     }
@@ -99,7 +103,7 @@ public class InfoEquipe extends AppCompatActivity {
                 .addOnFailureListener(e -> showLoadError());
     }
 
-    private void loadTeamMembers(String teamId) {
+    private void loadTeamMembers() {
         db.collection("teams").document(teamId)
                 .collection("members")
                 .orderBy("pontos", Query.Direction.DESCENDING)
@@ -125,56 +129,31 @@ public class InfoEquipe extends AppCompatActivity {
                 });
     }
 
-    private void loadUserGoals() {
+    private void loadTeamGoals(DocumentSnapshot teamDoc) {
         String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(new Date());
         currentDay = currentDay.substring(0, 3).toLowerCase();
 
-        db.collection("users").document(currentUser.getUid())
-                .get()
-                .addOnSuccessListener(userDoc -> {
-                    if (userDoc.exists() && userDoc.contains("currentTeam")) {
-                        String teamCode = userDoc.getString("currentTeam");
+        List<Map<String, Object>> metas = (List<Map<String, Object>>) teamDoc.get("metas");
+        goalsContainer.removeAllViews();
 
-                        db.collection("teams")
-                                .whereEqualTo("codigo", teamCode)
-                                .addSnapshotListener((value, error) -> {
-                                    if (error != null) {
-                                        return;
-                                    }
-
-                                    goalsContainer.removeAllViews();
-
-                                    if (value != null && !value.isEmpty()) {
-                                        for (DocumentSnapshot doc : value.getDocuments()) {
-                                            List<Object> metasList = (List<Object>) doc.get("metas");
-                                            if (metasList != null) {
-                                                for (Object metaObj : metasList) {
-                                                    if (metaObj instanceof Map) {
-                                                        Map<String, Object> metaMap = (Map<String, Object>) metaObj;
-                                                        createGoalCard(metaMap);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        TextView emptyView = new TextView(this);
-                                        emptyView.setText("Nenhuma meta para hoje");
-                                        emptyView.setTextColor(Color.WHITE);
-                                        emptyView.setTextSize(16);
-                                        emptyView.setGravity(Gravity.CENTER);
-                                        goalsContainer.addView(emptyView);
-                                    }
-                                });
-
-                    } else {
-                        showTeamNotFound();
-                    }
-                });
+        if (metas != null && !metas.isEmpty()) {
+            for (Map<String, Object> meta : metas) {
+                List<String> days = (List<String>) meta.get("days");
+                if (days != null && days.contains(currentDay)) {
+                    createGoalCard(meta);
+                }
+            }
+        } else {
+            showEmptyGoalsMessage();
+        }
     }
 
     private void createGoalCard(Map<String, Object> meta) {
         String title = (String) meta.get("title");
         Long intensity = (Long) meta.get("intensity");
+        List<String> completedBy = (List<String>) meta.get("completedBy");
+
+        boolean isCompleted = completedBy != null && completedBy.contains(currentUser.getUid());
 
         FrameLayout taskFrame = new FrameLayout(this);
         FrameLayout.LayoutParams frameParams = new FrameLayout.LayoutParams(
@@ -205,7 +184,8 @@ public class InfoEquipe extends AppCompatActivity {
                 (int) getResources().getDimension(R.dimen.goal_check_size)
         );
         finishGoal.setLayoutParams(checkParams);
-        finishGoal.setImageResource(R.drawable.checkmarkempty);
+        finishGoal.setImageResource(isCompleted ? R.drawable.checkmarkstilled : R.drawable.checkmarkempty);
+        finishGoal.setOnClickListener(v -> completeGoal(meta, finishGoal));
         linearLayout.addView(finishGoal);
 
         TextView taskText = new TextView(this);
@@ -219,9 +199,24 @@ public class InfoEquipe extends AppCompatActivity {
                 0, 0, 0
         );
         taskText.setLayoutParams(textParams);
+        taskText.setText(title != null ? title : "Meta sem título");
         taskText.setTextColor(Color.WHITE);
         taskText.setTypeface(ResourcesCompat.getFont(this, R.font.inter_bold), Typeface.BOLD);
         linearLayout.addView(taskText);
+
+        ImageView editIcon = new ImageView(this);
+        LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(
+                (int) getResources().getDimension(R.dimen.goal_check_size),
+                (int) getResources().getDimension(R.dimen.goal_check_size)
+        );
+        editIcon.setLayoutParams(editParams);
+        editIcon.setImageResource(R.drawable.taskeditor);
+        editIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(this, EditarMeta.class);
+            intent.putExtra("teamId", teamId);
+            startActivity(intent);
+        });
+        linearLayout.addView(editIcon);
 
         ImageView progressBar = new ImageView(this);
         FrameLayout.LayoutParams progressParams = new FrameLayout.LayoutParams(
@@ -231,21 +226,64 @@ public class InfoEquipe extends AppCompatActivity {
         progressParams.gravity = Gravity.BOTTOM;
         progressBar.setLayoutParams(progressParams);
 
-        taskText.setText(title != null ? title : "Meta sem título");
-
         if (intensity != null) {
-            if (intensity == 1) {
-                progressBar.setImageResource(R.drawable.greentag);
-            } else if (intensity == 2) {
-                progressBar.setImageResource(R.drawable.yellowtag);
-            } else {
-                progressBar.setImageResource(R.drawable.redtag);
-            }
+            progressBar.setImageResource(
+                    intensity == 1 ? R.drawable.greentag :
+                            intensity == 2 ? R.drawable.yellowtag : R.drawable.redtag);
         }
 
         taskFrame.addView(linearLayout);
         taskFrame.addView(progressBar);
         goalsContainer.addView(taskFrame);
+    }
+
+    private void completeGoal(Map<String, Object> meta, ImageView finishGoal) {
+        List<String> completedBy = (List<String>) meta.get("completedBy");
+        if (completedBy != null && completedBy.contains(currentUser.getUid())) {
+            return;
+        }
+
+        int pointsToAdd;
+        Long intensity = (Long) meta.get("intensity");
+        if (intensity != null) {
+            pointsToAdd = intensity == 1 ? 15 : intensity == 2 ? 35 : 60;
+        } else {
+            pointsToAdd = 0;
+        }
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("metas", FieldValue.arrayRemove(meta));
+
+        meta.put("completedBy", completedBy != null ?
+                FieldValue.arrayUnion(currentUser.getUid()) :
+                List.of(currentUser.getUid()));
+        meta.put("lastCompleted", new Date());
+
+        updates.put("metas", FieldValue.arrayUnion(meta));
+
+        db.collection("teams").document(teamId)
+                .update(updates)
+                .addOnSuccessListener(aVoid -> {
+                    finishGoal.setImageResource(R.drawable.checkmarkstilled);
+
+                    db.collection("teams").document(teamId)
+                            .collection("members")
+                            .document(currentUser.getUid())
+                            .update("pontos", FieldValue.increment(pointsToAdd))
+                            .addOnSuccessListener(aVoid1 -> {
+                                Toast.makeText(this, "Meta concluída! +" + pointsToAdd + " pontos", Toast.LENGTH_SHORT).show();
+                                loadTeamMembers();
+                            });
+                });
+    }
+
+    private void showEmptyGoalsMessage() {
+        TextView emptyView = new TextView(this);
+        emptyView.setText("Nenhuma meta para hoje");
+        emptyView.setTextColor(Color.WHITE);
+        emptyView.setTextSize(16);
+        emptyView.setGravity(Gravity.CENTER);
+        goalsContainer.addView(emptyView);
     }
 
     private String getPositionString(int position) {
