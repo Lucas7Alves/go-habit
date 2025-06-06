@@ -43,6 +43,6 @@
         android:textStyle="bold"
         android:gravity="center_vertical"
         android:drawablePadding="4dp"
-        android:drawableStart="@drawable/ic_star"
-        android:paddingStart="8dp"/>
+        android:paddingStart="8dp"
+        app:drawableStartCompat="@drawable/ic_star" />
 </LinearLayout>

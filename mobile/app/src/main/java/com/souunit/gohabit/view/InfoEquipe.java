@@ -3,10 +3,13 @@ package com.souunit.gohabit.view;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,10 +49,21 @@ public class InfoEquipe extends AppCompatActivity {
     private LinearLayout goalsContainer;
     private String teamId;
 
+    private ImageButton btnInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_equipe);
+
+        btnInfo = findViewById(R.id.btn_info);
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InfoEquipe.this, ListaMembros.class);
+                startActivity(intent);
+            }
+        });
 
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();

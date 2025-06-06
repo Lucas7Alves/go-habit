@@ -54,7 +54,7 @@
             android:layout_alignParentEnd="true"
             android:background="@android:color/transparent"
             android:contentDescription="Info"
-            android:src="@drawable/info_team"/>
+            android:src="@drawable/info_team" />
     </RelativeLayout>
 
     <TextView

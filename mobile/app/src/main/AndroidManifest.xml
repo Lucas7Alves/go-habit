@@ -49,6 +49,10 @@
         <activity
             android:name=".view.InfoEquipe"
             android:exported="true" />
+
+        <activity
+            android:name=".view.ListaMembros"
+            android:exported="true" />
     </application>
 
 </manifest>
