@@ -49,7 +49,7 @@ public class InfoEquipe extends AppCompatActivity {
     private LinearLayout goalsContainer;
     private String teamId;
 
-    private ImageButton btnInfo;
+    private ImageButton btnInfo, btnAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,7 +255,7 @@ public class InfoEquipe extends AppCompatActivity {
     private void completeGoal(Map<String, Object> meta, ImageView finishGoal) {
         List<String> completedBy = (List<String>) meta.get("completedBy");
         boolean isCompleted = completedBy != null && completedBy.contains(currentUser.getUid());
-        
+
         if (isCompleted) {
             Toast.makeText(this, "Você já completou esta meta!", Toast.LENGTH_SHORT).show();
             return;

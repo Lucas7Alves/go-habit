@@ -175,7 +175,7 @@ public class PrincipalSolo extends AppCompatActivity {
                 .document(uid)
                 .collection("goals")
                 .whereArrayContains("days", formatCurrentDay)
-                .whereEqualTo("status", "pending");
+                .whereEqualTo("status", "not_completed");
 
         query.addSnapshotListener((value, error) -> {
             if (error != null) {
@@ -188,11 +188,11 @@ public class PrincipalSolo extends AppCompatActivity {
             int currentId = 0;
             for (DocumentSnapshot doc : value.getDocuments()) {
 
-                currentId =+ 1;
+                currentId += 1;
                 List<String> dias = (List<String>) doc.get("days");
 
 
-                if (dias != null && dias.contains(formatCurrentDay) && MetaStatus.PENDING.getValue().equals(doc.getString("status"))) {
+                if (dias != null && dias.contains(formatCurrentDay) && MetaStatus.NOT_COMPLETED.getValue().equals(doc.getString("status"))) {
                     String title = doc.getString("title");
 
                     // Criar o FrameLayout (container principal)
