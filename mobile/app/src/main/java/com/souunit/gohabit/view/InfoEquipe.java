@@ -255,6 +255,11 @@ public class InfoEquipe extends AppCompatActivity {
     private void completeGoal(Map<String, Object> meta, ImageView finishGoal) {
         List<String> completedBy = (List<String>) meta.get("completedBy");
         boolean isCompleted = completedBy != null && completedBy.contains(currentUser.getUid());
+        
+        if (isCompleted) {
+            Toast.makeText(this, "Você já completou esta meta!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         int pointsToAdd;
         Long intensity = (Long) meta.get("intensity");
