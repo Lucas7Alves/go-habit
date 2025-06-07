@@ -41,8 +41,8 @@ import java.util.Map;
 
 public class PrincipalSolo extends AppCompatActivity {
 
-    Button btn_profile;
-    ImageButton btn_team;
+    ImageView btnProfile;
+    ImageButton btnTeam;
 
     ImageButton btnAdd;
 
@@ -65,7 +65,8 @@ public class PrincipalSolo extends AppCompatActivity {
 
         btnAdd = findViewById(R.id.btn_add);
         logout = findViewById(R.id.logout);
-        btn_team = findViewById(R.id.btn_team);
+        btnTeam = findViewById(R.id.btn_team);
+        btnProfile = findViewById(R.id.avatar);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,10 +76,39 @@ public class PrincipalSolo extends AppCompatActivity {
             }
         });
 
-        btn_team.setOnClickListener(new View.OnClickListener() {
+        btnTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PrincipalSolo.this, FormEntrarEquipe.class);
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user == null) {
+                    Toast.makeText(PrincipalSolo.this, "Usuário não autenticado", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                FirebaseFirestore.getInstance().collection("users")
+                        .document(user.getUid())
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists() && document.contains("currentTeam")) {
+                                    Intent intent = new Intent(PrincipalSolo.this, InfoEquipe.class);
+                                    startActivity(intent);
+                                } else {
+                                    Intent intent = new Intent(PrincipalSolo.this, FormEntrarEquipe.class);
+                                    startActivity(intent);
+                                }
+                            } else {
+                                Toast.makeText(PrincipalSolo.this, "Erro ao verificar equipe", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
+
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PrincipalSolo.this, Perfil.class);
                 startActivity(intent);
             }
         });
@@ -145,11 +175,11 @@ public class PrincipalSolo extends AppCompatActivity {
                 .document(uid)
                 .collection("goals")
                 .whereArrayContains("days", formatCurrentDay)
-                .whereEqualTo("status", "pending");
+                .whereEqualTo("status", "not_completed");
 
         query.addSnapshotListener((value, error) -> {
             if (error != null) {
-                Toast.makeText(this, "Erro ao carregar", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Erro ao carregar" + error.getMessage(), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -158,11 +188,11 @@ public class PrincipalSolo extends AppCompatActivity {
             int currentId = 0;
             for (DocumentSnapshot doc : value.getDocuments()) {
 
-                currentId =+ 1;
+                currentId += 1;
                 List<String> dias = (List<String>) doc.get("days");
 
 
-                if (dias != null && dias.contains(formatCurrentDay) && MetaStatus.PENDING.getValue().equals(doc.getString("status"))) {
+                if (dias != null && dias.contains(formatCurrentDay) && MetaStatus.NOT_COMPLETED.getValue().equals(doc.getString("status"))) {
                     String title = doc.getString("title");
 
                     // Criar o FrameLayout (container principal)

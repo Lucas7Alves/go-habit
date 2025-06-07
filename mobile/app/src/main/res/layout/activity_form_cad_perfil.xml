@@ -72,7 +72,7 @@
         android:textSize="16sp"
         tools:text="Informe seu nome" />
     <EditText
-        android:id="@+id/editTextBio"
+        android:id="@+id/editTextNome"
         style="@style/EditTextDefault"
         android:background="@drawable/edit_text_no_underline"
         android:layout_width="match_parent"
@@ -92,7 +92,7 @@
         tools:text="Bio" />
 
     <EditText
-        android:id="@+id/editTextNome"
+        android:id="@+id/editTextBio"
         style="@style/EditTextDefault"
         android:background="@drawable/edit_text_no_underline"
         android:layout_width="match_parent"
